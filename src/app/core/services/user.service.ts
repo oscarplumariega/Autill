@@ -28,18 +28,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  //private readonly api = 'https://localhost:7234/';
   private readonly api = 'http://localhost:3000/api/v1';
-
-  /*getUserByEmail(email: string) {
-    return this.http.get(this.api+'api/Users/byEmail/'+email);
-  }
-  getUserById(id: string) {
-    return this.http.get(this.api+'api/Users/'+id);
-  }
-  editUser(user: any){
-    return this.http.put<UserEdit>(this.api+'api/Users', user);
-  }*/
 
   getUserByEmail(email: string) {
     return this.http.get(this.api+'/Users/getByEmail/'+email);

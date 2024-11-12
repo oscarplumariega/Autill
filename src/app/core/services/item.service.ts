@@ -9,18 +9,18 @@ export class ItemService {
 
   constructor(private http: HttpClient) { }
 
-  private readonly api = 'https://localhost:7234/';
+  private readonly api = 'http://localhost:3000/api/v1';
 
   deleteProduct(id: number){
-    return this.http.delete(this.api+'api/Item/'+id);
+    return this.http.delete(this.api+'/Item/'+id);
   }
   getItems(id: string){
-    return this.http.get(this.api+'api/Item/list/'+id)
+    return this.http.get(this.api+'/Item/list/'+id)
   }
   editItem(id:number, item:Item){
-    return this.http.put(this.api+'api/Item/'+id, item)
+    return this.http.put(this.api+'/Item/'+id, item)
   }
   addItem(item:Item){
-    return this.http.post<Item>(this.api+'api/Item', item)
+    return this.http.post<Item>(this.api+'/Item', item)
   }
 }

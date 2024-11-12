@@ -9,8 +9,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  //private readonly api = 'https://localhost:7234/';
-  private readonly api = 'http://localhost:3000/api/v1/auth/';
+  private readonly api = 'http://localhost:3000/api/v1/Auth/';
 
   auth(user: any, action: string){
     let auth_action = 'register';
