@@ -98,7 +98,7 @@ export class BudgetModalComponent {
       })
     } else {
       this.budgetService.nextBudgetName(localStorage.getItem('id') || "[]").subscribe((name: any) => {
-        this.budgetForm.controls['Name'].setValue(name);
+        this.budgetForm.controls['Name'].setValue(name.name);
       })
     }
     this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
@@ -108,7 +108,7 @@ export class BudgetModalComponent {
         startWith(''),
         map(value => {
           const item = value;
-          return item ? this._filter(item as string) : clients || '';
+          return item ? this._filter(item as string) : clients.data || '';
         }),
       );
     })
@@ -199,13 +199,13 @@ export class BudgetModalComponent {
   private _filter(value: any): any[] {
     let filterValue = '';
     if (typeof value === 'number') {
-      this.clientSelected = this.clients.find((item: any) => item.id === value)!;
-      filterValue = this.clientSelected.name.toLowerCase();
+      this.clientSelected = this.clients.find((item: any) => item.Id === value)!;
+      filterValue = this.clientSelected.Name.toLowerCase();
     } else {
       filterValue = typeof value === 'string' ? value.toLowerCase() : value.Client.toLowerCase();
-      this.clientSelected = this.clients.find((item: any) => item.name === value)!;
+      this.clientSelected = this.clients.find((item: any) => item.Name === value)!;
     }
 
-    return this.clients.filter((option: any) => option.name.toLowerCase().includes(filterValue));
+    return this.clients.filter((option: any) => option.Name.toLowerCase().includes(filterValue));
   }
 }

@@ -5,6 +5,7 @@ export const httpInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, ne
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessage = '';
+      console.log(error);
 
       if(error.error instanceof ErrorEvent){
         errorMessage = error.error.message;
