@@ -2,7 +2,6 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ApiService } from '../../../core/services/api.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatDatepickerIntl, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -20,6 +19,7 @@ import { BillService } from '../../../core/services/bill.service';
 import { ItemService } from '../../../core/services/item.service';
 import { UserService } from '../../../core/services/user.service';
 import { SpinnerLoadingComponent } from '../spinner-loading/spinner-loading.component';
+import { MatDatepickerInput, MatDatepickerModule } from '@angular/material/datepicker';
 
 export const MY_FORMATS = {
   parse: {
@@ -41,7 +41,7 @@ export const MY_FORMATS = {
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ],
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatAutocompleteModule, AsyncPipe, SpinnerLoadingComponent],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, AsyncPipe, SpinnerLoadingComponent, MatDatepickerModule],
   templateUrl: './budget-modal.component.html',
   styleUrl: './budget-modal.component.css'
 })

@@ -1,8 +1,8 @@
 // User Model
 export interface User {
-  email: string,
-  fullname: string,
-  address: string,
-  phone_number: number,
-  cif: string,
+  Email: string,
+  Fullname: string,
+  Address: string,
+  Phone_number: number,
+  Cif: string,
 }

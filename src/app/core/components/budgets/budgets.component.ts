@@ -3,7 +3,6 @@ import { ApiService } from '../../services/api.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BudgetModalComponent } from '../../../shared/components/budget-modal/budget-modal.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatButton } from '@angular/material/button';
 import { ErrorsComponent } from "../../../shared/components/errors/errors.component";
 import { DeleteItemModalComponent } from '../../../shared/components/delete-item-modal/delete-item-modal.component';
 import { CommonService } from '../../services/common-service.service';
@@ -14,7 +13,7 @@ import { SearchFiltersComponent } from "../../../shared/components/search-filter
 @Component({
   selector: 'app-budgets',
   standalone: true,
-  imports: [MatButton, ErrorsComponent, PaginatorComponent, SearchFiltersComponent],
+  imports: [ErrorsComponent, PaginatorComponent, SearchFiltersComponent],
   templateUrl: './budgets.component.html',
   styleUrl: './budgets.component.css'
 })

@@ -1,7 +1,6 @@
 import { Component, inject, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatButton } from '@angular/material/button';
 import { DeleteItemModalComponent } from '../../../shared/components/delete-item-modal/delete-item-modal.component';
 import { ClientsModalComponent } from '../../../shared/components/clients-modal/clients-modal.component';
 import { ErrorsComponent } from '../../../shared/components/errors/errors.component';
@@ -12,7 +11,7 @@ import { SearchFiltersComponent } from '../../../shared/components/search-filter
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [MatButton, ErrorsComponent, PaginatorComponent, SearchFiltersComponent],
+  imports: [ErrorsComponent, PaginatorComponent, SearchFiltersComponent],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })

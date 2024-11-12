@@ -67,11 +67,9 @@
                                    [matAutocomplete]="auto">
                             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                 <mat-option value=""></mat-option>
-                                @if(clients.length > 0){
                                     @for (c of filteredClients | async; track c) {
                                         <mat-option [value]="c.Name">{{c.Name}}</mat-option>
                                       }
-                                }
                             </mat-autocomplete>
                           </mat-form-field>
                       </div>
