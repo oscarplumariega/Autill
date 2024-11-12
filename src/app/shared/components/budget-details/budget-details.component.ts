@@ -20,7 +20,7 @@ import { ItemService } from '../../../core/services/item.service';
   styleUrl: './budget-details.component.css'
 })
 export class BudgetDetailsComponent {
-  items = [{ id: 0, name: '', units: 0, price: 0, totalConcept: 0 }];
+  items = [{ Id: 0, Name: '', Units: 0, Price: 0, TotalConcept: 0 }];
   data = [];
   dbItems: any = [];
   apiService = inject(ApiService);
@@ -74,14 +74,14 @@ export class BudgetDetailsComponent {
 
   ngAfterViewInit() {
     for (let i = 0; i < this.items.length; i++) {
-      this.detailsForm.get(`Item${i}`)!.setValue(this.items[i].name);
-      this.detailsForm.get(`Units${i}`)!.setValue(this.items[i].units);
-      this.detailsForm.get(`PriceTD${i}`)!.setValue(this.items[i].price);
+      this.detailsForm.get(`Item${i}`)!.setValue(this.items[i].Name);
+      this.detailsForm.get(`Units${i}`)!.setValue(this.items[i].Units);
+      this.detailsForm.get(`PriceTD${i}`)!.setValue(this.items[i].Price);
     }
   }
 
   onClose(): void {
-    if (this.items[this.items.length - 1].totalConcept == 0) {
+    if (this.items[this.items.length - 1].TotalConcept == 0) {
       this.items.pop();
     }
     this.dialogRef.close({ data: this.items });
@@ -92,17 +92,17 @@ export class BudgetDetailsComponent {
     if(type === 'form'){
       this.newFormControls(id);
 
-      this.items.push({ id: id, name: '', units: 0, price: 0, totalConcept: 0 });
+      this.items.push({ Id: id, Name: '', Units: 0, Price: 0, TotalConcept: 0 });
     }else{
       let units = parseFloat(this.detailsForm.controls['Units' + id].value);
   
-      this.items[id].name = this.detailsForm.controls['Item' + id].value;
-      this.items[id].units = units;
-      this.items[id].price = parseFloat(this.lasItemAdded.price);
+      this.items[id].Name = this.detailsForm.controls['Item' + id].value;
+      this.items[id].Units = units;
+      this.items[id].Price = parseFloat(this.lasItemAdded.price);
 
-      this.items[id].totalConcept = Number((units * this.items[id].price).toFixed(2));
+      this.items[id].TotalConcept = Number((units * this.items[id].Price).toFixed(2));
   
-      this.items.push({ id: id + 1, name: '', units: 0, price: 0, totalConcept: 0 });
+      this.items.push({ Id: id + 1, Name: '', Units: 0, Price: 0, TotalConcept: 0 });
 
       this.filteredItems = this.detailsForm.controls[`Item${id}`].valueChanges.pipe(
         startWith(''),
@@ -152,8 +152,8 @@ export class BudgetDetailsComponent {
   unitsChange(idItem: number, event: any) {
     let refreshUnits = (event.target as HTMLInputElement).value
 
-    this.items[idItem].units = parseFloat(refreshUnits);
-    this.items[idItem].totalConcept = this.items[idItem].units * this.items[idItem].price;
+    this.items[idItem].Units = parseFloat(refreshUnits);
+    this.items[idItem].TotalConcept = this.items[idItem].Units * this.items[idItem].Price;
   }
 }
 

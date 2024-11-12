@@ -10,13 +10,17 @@ export class BudgetService {
 
   constructor(private http: HttpClient) { }
 
-  private readonly api = 'https://localhost:3000/api/v1';
+  private readonly api = 'http://localhost:3000/api/v1';
 
-  getBudgets(id:string): Observable<BudgetResults>{
-    return this.http.get<BudgetResults>(this.api+'/Budgets/'+id);
+  getBudgets(id:any): Observable<any>{
+    const body = {userId: id};
+
+    return this.http.post(this.api+'/Budgets/getList',body);
   }
-  nextBudgetName(){
-    return this.http.get(this.api+'/Budgets/nextName');
+  nextBudgetName(id: any): Observable<any>{
+    const body = {userId: id};
+
+    return this.http.post(this.api+'/Budgets/nextName', body);
   }
   editBudget(id:number, budget:Budget){
     return this.http.put(this.api+'/Budgets/'+id, budget)

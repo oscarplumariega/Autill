@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
-import { map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { Client } from '../../../core/models/Client';
 import { ClientService } from '../../../core/services/client.service';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -44,13 +44,13 @@ export class SearchFiltersComponent {
 
   initializeForm() {
     this.searchForm = new FormGroup({
-      name: new FormControl(),
-      clientId: new FormControl(),
-      date: new FormControl(),
-      status: new FormControl(),
-      price: new FormControl(),
-      nif: new FormControl(),
-      phoneNumber: new FormControl()
+      Name: new FormControl(),
+      ClientId: new FormControl(),
+      Date: new FormControl(),
+      Status: new FormControl(),
+      Price: new FormControl(),
+      Nif: new FormControl(),
+      PhoneNumber: new FormControl()
     })
   }
 
@@ -60,13 +60,13 @@ export class SearchFiltersComponent {
 
   ngOnInit() {
     this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
-      this.clients = clients;
+      this.clients = clients.data;
 
-      this.filteredClients = this.searchForm.controls['clientId'].valueChanges.pipe(
+      this.filteredClients = this.searchForm.controls['ClientId'].valueChanges.pipe(
         startWith(''),
         map(value => {
           const item = value;
-          return item ? this._filter(item as string) : clients || '';
+          return item ? this._filter(item as string) : this.clients || '';
         }),
       );
     })
@@ -81,8 +81,8 @@ export class SearchFiltersComponent {
   }
 
   private _filter(value: any): any[] {
-    let filterValue = '';
+    const filterValue = value.toLowerCase();
 
-    return this.clients.filter((option:any) => option.name.toLowerCase().includes(filterValue));
+    return this.clients.filter((option:any) => option.Name.toLowerCase().includes(filterValue));
   }
 }

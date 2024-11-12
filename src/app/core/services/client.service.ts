@@ -9,10 +9,12 @@ export class ClientService {
 
   constructor(private http: HttpClient) { }
 
-  private readonly api = 'https://localhost:3000/api/v1';
+  private readonly api = 'http://localhost:3000/api/v1';
 
   getClients(id:string){
-    return this.http.get(this.api+'/Clients/list/'+id);
+    const body = {userId: id};
+
+    return this.http.post(this.api+'/Clients/getList',body);
   }
   getClientById(id:number){
     return this.http.get(this.api+'/Clients/'+id);

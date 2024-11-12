@@ -81,7 +81,7 @@ export class LoginComponent {
             setTimeout(() => {
               localStorage.setItem('email',this.registerForm.controls['Email'].value);
               this.userService.getUserByEmail( localStorage.getItem('email') || "[]").subscribe((data:any) => {
-                localStorage.setItem('id',data.id);
+                localStorage.setItem('id',data.Id);
               })
 
               this.router.navigate(['/home']);

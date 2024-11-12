@@ -68,15 +68,15 @@ export class BudgetModalComponent {
 
   initializeForm() {
     this.budgetForm = new FormGroup({
-      id: new FormControl(),
-      idBusiness: new FormControl(localStorage.getItem('id') || "[]"),
-      name: new FormControl(),
-      price: new FormControl(),
-      descriptionItems: new FormControl(),
-      clientId: new FormControl(),
-      clientName: new FormControl(),
-      date: new FormControl(),
-      closeIt: new FormControl(false)
+      Id: new FormControl(),
+      IdBusiness: new FormControl(localStorage.getItem('id') || "[]"),
+      Name: new FormControl(),
+      Price: new FormControl(),
+      DescriptionItems: new FormControl(),
+      ClientId: new FormControl(),
+      ClientName: new FormControl(),
+      Date: new FormControl(),
+      CloseIt: new FormControl(false)
     })
   }
 
@@ -85,10 +85,26 @@ export class BudgetModalComponent {
   }
 
   ngOnInit() {
-    this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
-      this.clients = clients;
+    if (this.id > 0) {
+      this.budgetService.getBudgetById(this.id).subscribe((budget: any) => {
+        var dateParts = budget.date.split("/");
+        var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
+        budget.date = dateObject;
 
-      this.filteredClients = this.budgetForm.controls['clientId'].valueChanges.pipe(
+        this.budgetForm.setValue(budget);
+        this.budgetForm.controls['ClientId'].setValue(budget.clientName);
+
+        this.modalItemsArray = JSON.parse(budget.descriptionItems);
+      })
+    } else {
+      this.budgetService.nextBudgetName(localStorage.getItem('id') || "[]").subscribe((name: any) => {
+        this.budgetForm.controls['Name'].setValue(name);
+      })
+    }
+    this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
+      this.clients = clients.data;
+
+      this.filteredClients = this.budgetForm.controls['ClientId'].valueChanges.pipe(
         startWith(''),
         map(value => {
           const item = value;
@@ -98,22 +114,6 @@ export class BudgetModalComponent {
     })
     this.itemService.getItems(localStorage.getItem('id') || "[]").subscribe((data: any) => {
       this.dbItems = data;
-    })
-    this.budgetService.nextBudgetName().subscribe((name: any) => {
-      if (this.id > 0) {
-        this.budgetService.getBudgetById(this.id).subscribe((budget: any) => {
-          var dateParts = budget.date.split("/");
-          var dateObject = new Date(+dateParts[2], dateParts[1] - 1, +dateParts[0]);
-          budget.date = dateObject;
-
-          this.budgetForm.setValue(budget);
-          this.budgetForm.controls['clientId'].setValue(budget.clientName);
-
-          this.modalItemsArray = JSON.parse(budget.descriptionItems);
-        })
-      } else {
-        this.budgetForm.controls['name'].setValue('Prespuesto' + name.name);
-      }
     })
   }
 
@@ -132,10 +132,10 @@ export class BudgetModalComponent {
           sumTotalPrice = sumTotalPrice + result.data[i].totalConcept;
         }
 
-        this.budgetForm.controls['price'].setValue(Number(sumTotalPrice.toFixed(2)));
+        this.budgetForm.controls['Price'].setValue(Number(sumTotalPrice.toFixed(2)));
         this.modalItemsArray = result.data;
 
-        this.budgetForm.controls['descriptionItems'].setValue(JSON.stringify(result.data));
+        this.budgetForm.controls['DescriptionItems'].setValue(JSON.stringify(result.data));
       }
     });
   }
@@ -143,18 +143,18 @@ export class BudgetModalComponent {
   actionBudget() {
     this.loading = true;
 
-    let date = this.budgetForm.controls['date'].value;
+    let date = this.budgetForm.controls['Date'].value;
     let formatDate = moment(date).utc().format("DD/MM/YYYY");
     let day = parseInt(formatDate.slice(0, 2)) + 1;
     formatDate = day.toString() + formatDate.slice(2, formatDate.length);
 
-    this.budgetForm.controls['date'].setValue(formatDate);
+    this.budgetForm.controls['Date'].setValue(formatDate);
 
     if (this.id == 0) {
       this.budgetForm.removeControl('id');
 
-      this.budgetForm.controls['clientId'].setValue(this.clientSelected.id);
-      this.budgetForm.controls['clientName'].setValue(this.clientSelected.name);
+      this.budgetForm.controls['ClientId'].setValue(this.clientSelected.id);
+      this.budgetForm.controls['ClientName'].setValue(this.clientSelected.name);
       this.budgetService.addBudget(this.budgetForm.value).subscribe({
         next: () => {
           this.budgetForm.addControl('id', new FormControl());
@@ -165,10 +165,10 @@ export class BudgetModalComponent {
       })
     } else {
       if (this.clientSelected == undefined) {
-        this.clientSelected = this.clients.find((item: any) => item.name === this.budgetForm.controls['clientId'].value)!;
+        this.clientSelected = this.clients.find((item: any) => item.name === this.budgetForm.controls['ClientId'].value)!;
       }
-      this.budgetForm.controls['clientId'].setValue(this.clientSelected.id);
-      this.budgetForm.controls['clientName'].setValue(this.clientSelected.name);
+      this.budgetForm.controls['ClientId'].setValue(this.clientSelected.id);
+      this.budgetForm.controls['ClientName'].setValue(this.clientSelected.name);
 
       this.budgetService.editBudget(this.id, this.budgetForm.value).subscribe({
         complete: () => {

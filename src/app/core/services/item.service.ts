@@ -12,15 +12,17 @@ export class ItemService {
   private readonly api = 'http://localhost:3000/api/v1';
 
   deleteProduct(id: number){
-    return this.http.delete(this.api+'/Item/'+id);
+    return this.http.delete(this.api+'/Items/'+id);
   }
   getItems(id: string){
-    return this.http.get(this.api+'/Item/list/'+id)
+    const body = {userId: id};
+
+    return this.http.post(this.api+'/Items/getList',body);
   }
   editItem(id:number, item:Item){
-    return this.http.put(this.api+'/Item/'+id, item)
+    return this.http.put(this.api+'/Items/'+id, item);
   }
   addItem(item:Item){
-    return this.http.post<Item>(this.api+'/Item', item)
+    return this.http.post<Item>(this.api+'/Items', item);
   }
 }

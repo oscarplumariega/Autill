@@ -1,12 +1,12 @@
 export interface Budget {
-    id: number;
-    idBusiness: string;
-    name: string;
-    clientId: number;
-    clientName: string;
-    date: string;
-    descriptionItems: string;
-    price: number;
+    Id: number;
+    IdBusiness: string;
+    Name: string;
+    ClientId: number;
+    ClientName: string;
+    Date: string;
+    DescriptionItems: string;
+    Price: number;
 }
 
 export interface BudgetResults {

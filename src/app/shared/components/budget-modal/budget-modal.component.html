@@ -52,7 +52,7 @@
                 <!-- Modal body -->
                 <form [formGroup]="budgetForm" class="pt-6 max-w-md mx-auto">
                     <div class="relative z-0 w-full mb-5 group">
-                        <input formControlName="name" type="text" name="repeat_name" id="floating_repeat_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <input formControlName="Name" type="text" name="repeat_name" id="floating_repeat_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                         <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre Presupuesto</label>
                     </div>
                       <div class="relative z-0 w-full mb-5 group">
@@ -62,21 +62,23 @@
                                    placeholder="Selecciona"
                                    aria-label="Cliente"
                                    matInput
-                                   formControlName="clientId"
-                                   id="clientId"
+                                   formControlName="ClientId"
+                                   id="ClientId"
                                    [matAutocomplete]="auto">
                             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                 <mat-option value=""></mat-option>
-                              @for (c of filteredClients | async; track c) {
-                                <mat-option [value]="c.name">{{c.name}}</mat-option>
-                              }
+                                @if(clients.length > 0){
+                                    @for (c of filteredClients | async; track c) {
+                                        <mat-option [value]="c.Name">{{c.Name}}</mat-option>
+                                      }
+                                }
                             </mat-autocomplete>
                           </mat-form-field>
                       </div>
                       <div class="relative z-0 w-full mb-5 group">
                         <label class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer">Fecha</label>
                           <mat-form-field class="bg-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                            <input formControlName="date" matInput [matDatepicker]="picker" value="dateValue">
+                            <input formControlName="Date" matInput [matDatepicker]="picker" value="dateValue">
                             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
@@ -86,7 +88,7 @@
                         <button (click)="openTaskDialog()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">AÑADIR / EDITAR DETALLES</button>
                     </div>
                       <div class="relative z-0 w-full mb-5 group">
-                          <input formControlName="price" type="text" name="floating_price" id="floating_price" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                          <input formControlName="Price" type="text" name="floating_price" id="floating_price" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                           <label class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Precio</label>
                       </div>
                 </form>

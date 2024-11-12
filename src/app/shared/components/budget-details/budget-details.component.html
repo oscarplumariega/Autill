@@ -16,7 +16,7 @@
             </div>
             <!-- Modal body -->
                 <form [formGroup]="detailsForm" class="grid grid-cols-6 xl:grid-cols-6 gap-4 px-4 py-4">
-                @for (i of items; track i.id) {
+                @for (i of items; track i.Id) {
                     <div class="w-full h-20 rounded-xl col-span-2">
                         <mat-form-field class="example-full-width">
                             <mat-label>Producto</mat-label>
@@ -24,27 +24,27 @@
                                    placeholder="Selecciona"
                                    aria-label="Producto"
                                    matInput
-                                   formControlName="Item{{i.id}}"
-                                   id="detailInput{{i.id}}"
+                                   formControlName="Item{{i.Id}}"
+                                   id="detailInput{{i.Id}}"
                                    [matAutocomplete]="auto">
                             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                 <mat-option value=""></mat-option>
                               @for (dbi of filteredItems | async; track dbi) {
-                                <mat-option (onSelectionChange)="changeSelection(i.id, dbi.name,$event)" id="{{i.id}}" [value]="dbi.name">{{dbi.name}}</mat-option>
+                                <mat-option (onSelectionChange)="changeSelection(i.Id, dbi.Name,$event)" id="{{i.Id}}" [value]="dbi.Name">{{dbi.Name}}</mat-option>
                               }
                             </mat-autocomplete>
                           </mat-form-field>
                     </div>
                     <div class="w-full h-20 rounded-xl">
                         <label class="peer-focus:font-medium text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Unidades/Horas</label>
-                        <input value="{{i.units}}" formControlName="Units{{i.id}}" (change)="unitsChange(i.id, $event)" type="number" name="units" id="units{{i.id}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <input value="{{i.Units}}" formControlName="Units{{i.Id}}" (change)="unitsChange(i.Id, $event)" type="number" name="units" id="units{{i.Id}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     </div>
                     <div class="w-full h-20 rounded-xl col-span-2">
                         <label class="peer-focus:font-medium text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Precio/(Unidad-Hora)</label>
-                        <input value="{{i.price}}" type="number" formControlName="PriceTD{{i.id}}" name="priceTD" id="priceTD{{i.id}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                        <input value="{{i.Price}}" type="number" formControlName="PriceTD{{i.Id}}" name="priceTD" id="priceTD{{i.Id}}" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     </div>
                     <div class="w-full h-20 rounded-xl">
-                        <button (click)="addItem(i.id+1,'form')" type="button" class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">+</button>
+                        <button (click)="addItem(i.Id+1,'form')" type="button" class="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">+</button>
                     </div>
                 }
             </form>

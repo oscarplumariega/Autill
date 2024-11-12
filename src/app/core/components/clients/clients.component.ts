@@ -31,9 +31,9 @@ export class ClientsComponent {
   ngOnInit() {
     this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe({
       next: (data:any) => {
-        this.allClients = data;
-        this.dataClients = data;
-        this.clients = data.slice(0,10);
+        this.allClients = data.data;
+        this.dataClients = data.data;
+        this.clients = data.data;
       }, 
       error: (err: HttpErrorResponse) => {
         let error = '';
