@@ -31,11 +31,11 @@ export class BudgetsComponent {
   constructor(private dialog: MatDialog, public commonService: CommonService) { }
 
   ngOnInit() {
-    this.budgetService.getBudgets(localStorage.getItem('id') || "[]").subscribe({
+    this.budgetService.getBudgets(localStorage.getItem('id') || "[]", null, 10, 0).subscribe({
       next: (data: any) => {
-        this.allBudgets = data.data;
-        this.dataBudgets = data.data;
-        this.budgets = data.data;
+        this.allBudgets = data;
+        this.dataBudgets = data;
+        this.budgets = data;
       },
       error: (err: HttpErrorResponse) => {
         let error = '';
@@ -57,22 +57,23 @@ export class BudgetsComponent {
 
   updateSearching(formControlValue: any){
     this.budgets = this.dataBudgets;
-
-    for(let k in formControlValue){
+    /*for(let k in formControlValue){
       if(formControlValue[k] !== null && formControlValue[k] !== ''){
-        if(k === 'name'){
+        if(k === 'Name'){
           this.budgets = this.budgets.filter((item:any) => item.Name.includes(formControlValue[k]));
-        }else if(k === 'clientId'){
+        }else if(k === 'ClientId'){
           this.budgets = this.budgets.filter((item:any) => item.ClientName === formControlValue[k]);
-        }else if(k === 'date'){
+        }else if(k === 'Date'){
           this.budgets = this.budgets.filter((item:any) => item.Date === this.commonService.transformDate(formControlValue[k]));
-        }else if(k === 'status'){
+        }else if(k === 'Status'){
           this.budgets = this.budgets.filter((item:any) => item.CloseIt === formControlValue[k]);
         }
       }
-    }
-
-    this.allBudgets = this.budgets;
+    }*/
+    this.budgetService.getBudgets(localStorage.getItem('id') || "[]", formControlValue, 10, 0).subscribe((filterBudgets:any) => {
+      this.budgets = filterBudgets;
+      this.allBudgets = this.budgets;
+    });
   }
 
   openTaskDialog(action: string, id: number) {

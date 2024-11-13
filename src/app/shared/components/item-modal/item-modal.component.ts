@@ -24,10 +24,10 @@ export class ItemModalComponent {
 
   initializeForm(){
     this.itemForm = new FormGroup({
-      id: new FormControl(),
-      name: new FormControl(),
-      price: new FormControl(),
-      idBusiness: new FormControl(localStorage.getItem('id') || "[]")
+      Id: new FormControl(),
+      Name: new FormControl(),
+      Price: new FormControl(),
+      IdBusiness: new FormControl(localStorage.getItem('id') || "[]")
     })
   }
 
@@ -36,7 +36,7 @@ export class ItemModalComponent {
   }
 
   ngOnInit(){
-    if(this.item.id > 0){
+    if(this.item.Id > 0){
       this.itemForm.setValue(this.item);
     }
   }
@@ -48,18 +48,17 @@ export class ItemModalComponent {
   actionClient(){
     this.loading = true;
     if(this.item == 0){
-      this.itemForm.removeControl('id');
-      console.log();
+      this.itemForm.removeControl('Id');
       this.itemService.addItem(this.itemForm.value).subscribe({
         next: () => {
-          this.itemForm.addControl('id', new FormControl());
+          this.itemForm.addControl('Id', new FormControl());
         },
         complete: () => {
           window.location.reload();
         }
       })
     }else{
-      this.itemService.editItem(this.item.id, this.itemForm.value).subscribe({
+      this.itemService.editItem(this.item.Id, this.itemForm.value).subscribe({
         complete: () => {
           setTimeout(() => {
             window.location.reload();

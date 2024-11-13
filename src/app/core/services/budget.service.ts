@@ -12,8 +12,8 @@ export class BudgetService {
 
   private readonly api = 'http://localhost:3000/api/v1';
 
-  getBudgets(id:any): Observable<any>{
-    const body = {userId: id};
+  getBudgets(id:string, filters: any, t: number, s:number): Observable<any>{
+    const body = {userId: id, filters: filters, take: t, skip: s};
 
     return this.http.post(this.api+'/Budgets/getList',body);
   }

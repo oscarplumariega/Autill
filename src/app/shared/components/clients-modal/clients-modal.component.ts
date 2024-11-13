@@ -20,17 +20,17 @@ export class ClientsModalComponent {
 
   initializeForm(){
     this.clientForm = new FormGroup({
-      id: new FormControl(),
-      name: new FormControl(),
-      address: new FormControl(),
-      region: new FormControl(),
-      city: new FormControl(),
-      postalCode: new FormControl('',[Validators.pattern(/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/), Validators.required, Validators.maxLength(5)]),
-      email: new FormControl('',[Validators.required, Validators.email]),
-      country: new FormControl(),
-      idBusiness: new FormControl(localStorage.getItem('id') || "[]"),
-      nif: new FormControl('',[Validators.pattern(/^[A-Va-w][0-9]{8}[A-Z]$|^[0-9]{7}[0-9A-Ja]$/), Validators.required, Validators.maxLength(9)]),
-      phoneNumber: new FormControl('',[Validators.pattern(/^[+]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?)(?:[ -]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?))*(?:[ ]?(?:x|ext)\.?[ ]?\d{1,5})?$/), Validators.required, Validators.maxLength(9)])
+      Id: new FormControl(),
+      Name: new FormControl(),
+      Address: new FormControl(),
+      Region: new FormControl(),
+      City: new FormControl(),
+      PostalCode: new FormControl('',[Validators.pattern(/^(?:0[1-9]|[1-4]\d|5[0-2])\d{3}$/), Validators.required, Validators.maxLength(5)]),
+      Email: new FormControl('',[Validators.required, Validators.email]),
+      Country: new FormControl(),
+      IdBusiness: new FormControl(localStorage.getItem('id') || "[]"),
+      Nif: new FormControl('',[Validators.pattern(/^[A-Va-w][0-9]{8}[A-Z]$|^[0-9]{7}[0-9A-Ja]$/), Validators.required, Validators.maxLength(9)]),
+      PhoneNumber: new FormControl('',[Validators.pattern(/^[+]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?)(?:[ -]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?))*(?:[ ]?(?:x|ext)\.?[ ]?\d{1,5})?$/), Validators.required, Validators.maxLength(9)])
     })
   }
 
@@ -53,10 +53,10 @@ export class ClientsModalComponent {
   actionClient(){
     this.loading = true;
     if(this.id == 0){
-      this.clientForm.removeControl('id');
+      this.clientForm.removeControl('Id');
       this.clientService.addClient(this.clientForm.value).subscribe({
         next: () => {
-          this.clientForm.addControl('id', new FormControl());
+          this.clientForm.addControl('Id', new FormControl());
         },
         complete: () => {
           window.location.reload();
