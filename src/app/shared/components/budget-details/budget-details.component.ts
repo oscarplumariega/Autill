@@ -54,7 +54,7 @@ export class BudgetDetailsComponent {
     }
 
     this.itemService.getItems(localStorage.getItem('id') || "[]").subscribe((data: any) => {
-      this.dbItems = data;
+      this.dbItems = data.data;
 
       this.filteredItems = this.detailsForm.controls['Item0'].valueChanges.pipe(
         startWith(''),
@@ -88,18 +88,16 @@ export class BudgetDetailsComponent {
   }
 
   addItem(id: number, type:string) {
-    console.log(id);
     if(type === 'form'){
       this.newFormControls(id);
 
       this.items.push({ Id: id, Name: '', Units: 0, Price: 0, TotalConcept: 0 });
     }else{
       let units = parseFloat(this.detailsForm.controls['Units' + id].value);
-  
+
       this.items[id].Name = this.detailsForm.controls['Item' + id].value;
       this.items[id].Units = units;
-      this.items[id].Price = parseFloat(this.lasItemAdded.price);
-
+      this.items[id].Price = parseFloat(this.lasItemAdded.Price);
       this.items[id].TotalConcept = Number((units * this.items[id].Price).toFixed(2));
   
       this.items.push({ Id: id + 1, Name: '', Units: 0, Price: 0, TotalConcept: 0 });
@@ -130,16 +128,16 @@ export class BudgetDetailsComponent {
   private _filter(value: any): any[] {
     const filterValue = typeof value === 'string' ? value.toLowerCase() : value.Item.toLowerCase();
 
-    let itemSelected = this.dbItems.find((item: any) => item.name === value)!;
+    let itemSelected = this.dbItems.find((item: any) => item.Name === value)!;
 
     if (itemSelected !== undefined) {
-      let priceElement = document.getElementById(`priceTD${this.lastOptionIdSelected}`)! as HTMLInputElement;
-      priceElement.value = itemSelected.price;
+      let priceElement = document.getElementById(`PriceTD${this.lastOptionIdSelected}`)! as HTMLInputElement;
+      priceElement.value = itemSelected.Price;
     }
 
     this.lasItemAdded = itemSelected;
 
-    return this.dbItems.filter((option: any) => option.name.toLowerCase().includes(filterValue));
+    return this.dbItems.filter((option: any) => option.Name.toLowerCase().includes(filterValue));
   }
 
   addItems() {
