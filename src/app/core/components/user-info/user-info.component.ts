@@ -42,8 +42,7 @@ export class UserInfoComponent {
   }
 
   ngOnInit() {
-    this.emailLogin = localStorage.getItem('email') || "[]";
-    this.userService.getUserByEmail(this.emailLogin).subscribe((data: any) => {
+    this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((data: any) => {
       this.userInfo.setValue(data);
       this.logoPath = data.logo;
     })

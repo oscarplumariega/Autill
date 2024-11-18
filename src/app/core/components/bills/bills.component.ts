@@ -29,7 +29,7 @@ export class BillsComponent {
   constructor(private dialog: MatDialog, public commonService: CommonService) {}
 
   ngOnInit() {
-    this.billService.getBills(localStorage.getItem('id') || "[]").subscribe({
+    this.billService.getBills(localStorage.getItem('id') || "[]", null, 10, 0).subscribe({
       next: (data:any) => {
         for (let i = 0; i < data.length; i++) {
           this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients:any) =>{
@@ -40,9 +40,9 @@ export class BillsComponent {
             }
           })
         }
-        this.allBills = data;
-        this.dataBills = data;
-        this.bills = data.slice(0,10);
+        this.allBills = data.data;
+        this.dataBills = data.data;
+        this.bills = data.data;
       }, 
       error: (err: HttpErrorResponse) => {
         let error = '';

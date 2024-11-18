@@ -34,4 +34,11 @@ export class BudgetService {
   getBudgetById(id: number){
     return this.http.get(this.api+'/Budgets/'+id);
   }
+  sendEmail(from:any, to:any, mail:any){
+    const body = {from: from, to: to, mail: mail};
+
+    console.log(body);
+
+    return this.http.post(this.api+'/Budgets/mailInfo', body);
+  }
 }

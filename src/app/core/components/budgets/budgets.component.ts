@@ -9,6 +9,8 @@ import { CommonService } from '../../services/common-service.service';
 import { BudgetService } from '../../services/budget.service';
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
 import { SearchFiltersComponent } from "../../../shared/components/search-filters/search-filters.component";
+import { UserService } from '../../services/user.service';
+import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-budgets',
@@ -26,6 +28,8 @@ export class BudgetsComponent {
   showModal = false;
   apiService = inject(ApiService);
   budgetService = inject(BudgetService);
+  userService = inject(UserService);
+  clientService = inject(ClientService);
   errorMessage: string = '';
 
   constructor(private dialog: MatDialog, public commonService: CommonService) { }
@@ -57,19 +61,11 @@ export class BudgetsComponent {
 
   updateSearching(formControlValue: any){
     this.budgets = this.dataBudgets;
-    /*for(let k in formControlValue){
-      if(formControlValue[k] !== null && formControlValue[k] !== ''){
-        if(k === 'Name'){
-          this.budgets = this.budgets.filter((item:any) => item.Name.includes(formControlValue[k]));
-        }else if(k === 'ClientId'){
-          this.budgets = this.budgets.filter((item:any) => item.ClientName === formControlValue[k]);
-        }else if(k === 'Date'){
-          this.budgets = this.budgets.filter((item:any) => item.Date === this.commonService.transformDate(formControlValue[k]));
-        }else if(k === 'Status'){
-          this.budgets = this.budgets.filter((item:any) => item.CloseIt === formControlValue[k]);
-        }
-      }
-    }*/
+
+   if(formControlValue.Date != null){
+    formControlValue.Date = this.commonService.transformDate(formControlValue.Date);
+   }
+
     this.budgetService.getBudgets(localStorage.getItem('id') || "[]", formControlValue, 10, 0).subscribe((filterBudgets:any) => {
       this.budgets = filterBudgets;
       this.allBudgets = this.budgets;
@@ -98,6 +94,14 @@ export class BudgetsComponent {
         this.budgetService.deleteBudget(id).subscribe({
         })
       }
+    })
+  }
+
+  sendEmail(budget:any){
+    this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user:any) => {
+      this.clientService.getClientById(budget.ClientId).subscribe((client:any) => {
+        this.budgetService.sendEmail(user, client, budget).subscribe();
+      })
     })
   }
 
