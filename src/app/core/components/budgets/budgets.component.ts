@@ -21,7 +21,7 @@ import { ClientService } from '../../services/client.service';
 })
 export class BudgetsComponent {
   @Input() budgets: any;
-  
+
   dataScreen: string = 'budgets';
   allBudgets: any = [];
   dataBudgets: any = [];
@@ -31,6 +31,7 @@ export class BudgetsComponent {
   userService = inject(UserService);
   clientService = inject(ClientService);
   errorMessage: string = '';
+  filtersActivated: any = null;
 
   constructor(private dialog: MatDialog, public commonService: CommonService) { }
 
@@ -55,25 +56,33 @@ export class BudgetsComponent {
     })
   }
 
-  updateItems(pagination: any){
-    this.budgetService.getBudgets(localStorage.getItem('id') || "[]", null, 10, pagination.skip).subscribe((budgets:any) => {
+  updateItems(pagination: any) {
+    this.budgetService.getBudgets(localStorage.getItem('id') || "[]", this.filtersActivated, 10, pagination.skip).subscribe((budgets: any) => {
       this.allBudgets = budgets;
       this.dataBudgets = budgets;
       this.budgets = budgets;
     })
   }
 
-  updateSearching(formControlValue: any){
-    this.budgets = this.dataBudgets;
-
-   if(formControlValue.Date != null){
-    formControlValue.Date = this.commonService.transformDate(formControlValue.Date);
-   }
-
-    this.budgetService.getBudgets(localStorage.getItem('id') || "[]", formControlValue, 10, 0).subscribe((filterBudgets:any) => {
-      this.budgets = filterBudgets;
-      this.allBudgets = this.budgets;
-    });
+  updateSearching(formControlValue: any) {
+    if(formControlValue === ""){
+      this.filtersActivated = null;
+      this.budgetService.getBudgets(localStorage.getItem('id') || "[]", null, 10, 0).subscribe((budgets:any) => {
+        this.allBudgets = budgets;
+        this.dataBudgets = budgets;
+        this.budgets = budgets;
+      })
+    }else{
+      if (formControlValue.Date != null) {
+        formControlValue.Date = this.commonService.transformDate(formControlValue.Date);
+      }
+  
+      this.filtersActivated  = formControlValue;
+      this.budgetService.getBudgets(localStorage.getItem('id') || "[]", formControlValue, 10, 0).subscribe((filterBudgets: any) => {
+        this.budgets = filterBudgets;
+        this.allBudgets = this.budgets;
+      });
+    }
   }
 
   openTaskDialog(action: string, id: number) {
@@ -101,12 +110,12 @@ export class BudgetsComponent {
     })
   }
 
-  sendEmail(budget:any){
-    this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user:any) => {
-      this.clientService.getClientById(budget.ClientId).subscribe((client:any) => {
+  sendEmail(budget: any) {
+    this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user: any) => {
+      this.clientService.getClientById(budget.ClientId).subscribe((client: any) => {
         this.budgetService.sendEmail(user, client, budget).subscribe();
       })
     })
   }
 
-  }
+}

@@ -47,7 +47,7 @@ export class SearchFiltersComponent {
       Name: new FormControl(),
       ClientId: new FormControl(),
       Date: new FormControl(),
-      Status: new FormControl(),
+      CloseIt: new FormControl(),
       Price: new FormControl(),
       Nif: new FormControl(),
       PhoneNumber: new FormControl()
@@ -77,6 +77,7 @@ export class SearchFiltersComponent {
   }
 
   reset(){
+    this.searchForm.reset();
     this.updateSearching.emit("");
   }
 

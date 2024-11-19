@@ -1,6 +1,6 @@
-<div class="flex flex-col items-center pt-6">
+<div class="flex flex-col items-center pt-6 pb-6">
     <span class="text-sm text-gray-700 dark:text-gray-400">
-        Mostrando <span class="font-semibold text-gray-900 dark:text-white">{{initialElement}}</span> al <span class="font-semibold text-gray-900 dark:text-white">{{finalElement}}</span> de <span class="font-semibold text-gray-900 dark:text-white">{{allItems.count}}</span> registros
+        Mostrando <span class="font-semibold text-gray-900 dark:text-white">{{allItems.page.initialElement+1}}</span> al <span class="font-semibold text-gray-900 dark:text-white">{{allItems.page.finalElement}}</span> de <span class="font-semibold text-gray-900 dark:text-white">{{allItems.count}}</span> registros
     </span>
     <div class="inline-flex mt-2 xs:mt-0">
       <button [disabled]="!pPage" mat-flat-button (click)="previousPage(actualPage)" class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
