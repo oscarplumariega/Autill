@@ -55,8 +55,12 @@ export class BudgetsComponent {
     })
   }
 
-  updateItems(budgets: any){
-    this.budgets = budgets;
+  updateItems(pagination: any){
+    this.budgetService.getBudgets(localStorage.getItem('id') || "[]", null, 10, pagination.skip).subscribe((budgets:any) => {
+      this.allBudgets = budgets;
+      this.dataBudgets = budgets;
+      this.budgets = budgets;
+    })
   }
 
   updateSearching(formControlValue: any){

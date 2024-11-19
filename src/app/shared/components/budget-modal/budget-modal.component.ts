@@ -101,7 +101,7 @@ export class BudgetModalComponent {
         this.budgetForm.controls['Name'].setValue(name.name);
       })
     }
-    this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
+    this.clientService.getAllClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
       this.clients = clients.data;
 
       this.filteredClients = this.budgetForm.controls['ClientId'].valueChanges.pipe(
@@ -112,7 +112,7 @@ export class BudgetModalComponent {
         }),
       );
     })
-    this.itemService.getItems(localStorage.getItem('id') || "[]").subscribe((data: any) => {
+    this.itemService.getAllItems(localStorage.getItem('id') || "[]").subscribe((data: any) => {
       this.dbItems = data;
     })
   }

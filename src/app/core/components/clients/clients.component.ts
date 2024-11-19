@@ -28,11 +28,11 @@ export class ClientsComponent {
   constructor(private dialog: MatDialog){}
 
   ngOnInit() {
-    this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe({
+    this.clientService.getClients(localStorage.getItem('id') || "[]", null, 10, 0).subscribe({
       next: (data:any) => {
-        this.allClients = data.data;
-        this.dataClients = data.data;
-        this.clients = data.data;
+        this.allClients = data;
+        this.dataClients = data;
+        this.clients = data;
       }, 
       error: (err: HttpErrorResponse) => {
         let error = '';
@@ -48,8 +48,12 @@ export class ClientsComponent {
     })
   }
 
-  updateItems(clients: any){
-    this.clients = clients;
+  updateItems(pagination: any){
+    this.clientService.getClients(localStorage.getItem('id') || "[]", null, 10, pagination.skip).subscribe((clients:any) => {
+      this.allClients = clients;
+      this.dataClients = clients;
+      this.clients = clients;
+    })
   }
 
   updateSearching(formControlValue: any){

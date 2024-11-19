@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Client } from '../models/Client';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,12 @@ export class ClientService {
 
   private readonly api = 'http://localhost:3000/api/v1';
 
-  getClients(id:string){
+  getClients(id:string, filters: any, t: number, s:number){
+    const body = {userId: id, filters: filters, take: t, skip: s};
+
+    return this.http.post(this.api+'/Clients/getList',body);
+  }
+  getAllClients(id:string): Observable<any>{
     const body = {userId: id};
 
     return this.http.post(this.api+'/Clients/getList',body);

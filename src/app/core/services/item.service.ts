@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Item } from '../models/Item';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,12 @@ export class ItemService {
   deleteProduct(id: number){
     return this.http.delete(this.api+'/Items/'+id);
   }
-  getItems(id: string){
+  getItems(id:string, filters: any, t: number, s:number): Observable<any>{
+    const body = {userId: id, filters: filters, take: t, skip: s};
+
+    return this.http.post(this.api+'/Items/getList',body);
+  }
+  getAllItems(id:string): Observable<any>{
     const body = {userId: id};
 
     return this.http.post(this.api+'/Items/getList',body);

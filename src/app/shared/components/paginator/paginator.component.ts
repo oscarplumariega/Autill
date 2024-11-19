@@ -45,10 +45,10 @@ export class PaginatorComponent {
   pPage: boolean = false;
 
   ngOnInit() {
-    if(this.finalElement >= this.allItems.length) {
-      this.finalElement = this.allItems.length;
+    if(this.finalElement >= this.allItems.count) {
+      this.finalElement = this.allItems.count;
       this.nPage = false;
-      this.pPage = false;
+      this.pPage = true;
     }
   }
 
@@ -59,10 +59,10 @@ export class PaginatorComponent {
   nextPage(actualPage: number){
     this.pPage = true;
     this.actualPage = actualPage+1;
-    this.updateItems.emit(this.allItems.slice(this.modelPagination[actualPage].initialElement, this.modelPagination[actualPage].finalElement));
+    this.updateItems.emit({"take": 10, "skip": this.modelPagination[actualPage].initialElement});
     this.initialElement = this.modelPagination[actualPage].initialElement+1;
-    if(this.pageSize*this.actualPage > this.allItems.length){
-      this.finalElement = this.allItems.length;
+    if(this.pageSize*this.actualPage > this.allItems.count){
+      this.finalElement = this.allItems.count;
       this.nPage = false;
     }else{
       this.finalElement = this.modelPagination[actualPage].finalElement;
@@ -77,10 +77,10 @@ export class PaginatorComponent {
       this.pPage = false;
     }
 
-    this.updateItems.emit(this.allItems.slice(this.modelPagination[this.actualPage-1].initialElement, this.modelPagination[this.actualPage-1].finalElement)); 
+    this.updateItems.emit({"take": 10, "skip": this.modelPagination[this.actualPage-1].initialElement}); 
     this.initialElement = this.modelPagination[this.actualPage-1].initialElement+1;
-    if(this.pageSize*this.actualPage > this.allItems.length){
-      this.finalElement = this.allItems.length;
+    if(this.pageSize*this.actualPage > this.allItems.count){
+      this.finalElement = this.allItems.count;
       this.pPage = false;
     }else{
       this.finalElement = this.modelPagination[this.actualPage-1].finalElement;

@@ -32,8 +32,9 @@ export class ItemsComponent {
   constructor(private dialog: MatDialog){}
 
   ngOnInit() {
-    this.itemService.getItems(localStorage.getItem('id') || "[]").subscribe((items:any) => {
-      this.allItems = items.data;
+    this.itemService.getItems(localStorage.getItem('id') || "[]", null, 10, 0).subscribe((items:any) => {
+      console.log(items);
+      this.allItems = items;
       this.dataItems = items.data;
       this.items = items.data;
     })
@@ -50,8 +51,12 @@ export class ItemsComponent {
     });
   }
 
-  updateItems(items: any){
-    this.items = items;
+  updateItems(pagination: any){
+    this.itemService.getItems(localStorage.getItem('id') || "[]", null, 10, pagination.skip).subscribe((items:any) => {
+      this.allItems = items;
+      this.dataItems = items.data;
+      this.items = items.data;
+    })
   }
 
   updateSearching(formControlValue: any){

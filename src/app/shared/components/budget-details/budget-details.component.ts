@@ -53,7 +53,7 @@ export class BudgetDetailsComponent {
       }
     }
 
-    this.itemService.getItems(localStorage.getItem('id') || "[]").subscribe((data: any) => {
+    this.itemService.getAllItems(localStorage.getItem('id') || "[]").subscribe((data: any) => {
       this.dbItems = data.data;
 
       this.filteredItems = this.detailsForm.controls['Item0'].valueChanges.pipe(

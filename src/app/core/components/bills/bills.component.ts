@@ -32,7 +32,7 @@ export class BillsComponent {
     this.billService.getBills(localStorage.getItem('id') || "[]", null, 10, 0).subscribe({
       next: (data:any) => {
         for (let i = 0; i < data.length; i++) {
-          this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients:any) =>{
+          this.clientService.getAllClients(localStorage.getItem('id') || "[]").subscribe((clients:any) =>{
             for (let x = 0; x < clients.length; x++) {
               if(clients[x].id === data[i].clientId) {
                 data[i].clientName = clients[x].name;

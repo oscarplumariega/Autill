@@ -59,7 +59,7 @@ export class SearchFiltersComponent {
   }
 
   ngOnInit() {
-    this.clientService.getClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
+    this.clientService.getAllClients(localStorage.getItem('id') || "[]").subscribe((clients: any) => {
       this.clients = clients.data;
 
       this.filteredClients = this.searchForm.controls['ClientId'].valueChanges.pipe(
