@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 interface UserEdit {
@@ -30,13 +30,28 @@ export class UserService {
 
   private readonly api = 'http://localhost:3000/api/v1';
 
+  private getHeaders(): HttpHeaders {
+    const authToken = localStorage.getItem('token');
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    });
+  }
+
   getUserByEmail(email: string) {
-    return this.http.get(this.api+'/Users/getByEmail/'+email);
+    const headers = this.getHeaders();
+
+    return this.http.get(this.api+'/Users/getByEmail/'+email,{headers});
   }
   getUserById(id: string) {
-    return this.http.get(this.api+'/Users/'+id);
+    const headers = this.getHeaders();
+
+    return this.http.get(this.api+'/Users/'+id,{headers});
   }
   editUser(user: any){
-    return this.http.put<UserEdit>(this.api+'/Users', user);
+    const headers = this.getHeaders();
+    
+    return this.http.put<UserEdit>(this.api+'/Users', user,{headers});
   }
 }

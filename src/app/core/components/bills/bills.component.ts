@@ -25,24 +25,26 @@ export class BillsComponent {
   clientService = inject(ClientService);
   errorMessage: string = "";
   dataBills: any = [];
+  filtersActivated: any = null;
 
   constructor(private dialog: MatDialog, public commonService: CommonService) {}
 
   ngOnInit() {
     this.billService.getBills(localStorage.getItem('id') || "[]", null, 10, 0).subscribe({
       next: (data:any) => {
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.data.length; i++) {
           this.clientService.getAllClients(localStorage.getItem('id') || "[]").subscribe((clients:any) =>{
-            for (let x = 0; x < clients.length; x++) {
-              if(clients[x].id === data[i].clientId) {
-                data[i].clientName = clients[x].name;
+            for (let x = 0; x < clients.data.length; x++) {
+              if(clients.data[x].Id === data.data[i].ClientId) {
+                data.data[i].ClientName = clients.data[x].Name;
               }
             }
           })
         }
-        this.allBills = data.data;
-        this.dataBills = data.data;
-        this.bills = data.data;
+
+        this.allBills = data;
+        this.dataBills = data;
+        this.bills = data;
       }, 
       error: (err: HttpErrorResponse) => {
         let error = '';
@@ -58,8 +60,12 @@ export class BillsComponent {
     })
   }
 
-  updateItems(bills: any){
-    this.bills = bills;
+  updateItems(pagination: any){
+    this.billService.getBills(localStorage.getItem('id') || "[]", this.filtersActivated, 10, pagination.skip).subscribe((bills: any) => {
+      this.allBills = bills;
+      this.dataBills = bills;
+      this.bills = bills;
+    })
   }
 
   updateSearching(formControlValue: any){

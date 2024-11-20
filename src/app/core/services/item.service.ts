@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Item } from '../models/Item';
 import { Observable } from 'rxjs';
@@ -12,23 +12,37 @@ export class ItemService {
 
   private readonly api = 'http://localhost:3000/api/v1';
 
+  private getHeaders(): HttpHeaders {
+    const authToken = localStorage.getItem('token');
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    });
+  }
+
   deleteProduct(id: number){
-    return this.http.delete(this.api+'/Items/'+id);
+    const headers = this.getHeaders();
+    return this.http.delete(this.api+'/Items/'+id, {headers});
   }
   getItems(id:string, filters: any, t: number, s:number): Observable<any>{
     const body = {userId: id, filters: filters, take: t, skip: s};
+    const headers = this.getHeaders();
 
-    return this.http.post(this.api+'/Items/getList',body);
+    return this.http.post(this.api+'/Items/getList',body, {headers});
   }
   getAllItems(id:string): Observable<any>{
     const body = {userId: id};
+    const headers = this.getHeaders();
 
-    return this.http.post(this.api+'/Items/getList',body);
+    return this.http.post(this.api+'/Items/getList',body, {headers});
   }
   editItem(id:number, item:Item){
-    return this.http.put(this.api+'/Items/'+id, item);
+    const headers = this.getHeaders();
+    return this.http.put(this.api+'/Items/'+id, item,{headers});
   }
   addItem(item:Item){
-    return this.http.post<Item>(this.api+'/Items', item);
+    const headers = this.getHeaders();
+    return this.http.post<Item>(this.api+'/Items', item,{headers});
   }
 }

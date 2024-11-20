@@ -40,28 +40,28 @@
                     <td class="flex justify-center px-1 py-3">
                         @if(b.CloseIt === false){
                         <button (click)="openTaskDialog('edit', b.Id)"
-                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-blue-600 dark:hover:bg-blue-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-md text-sm px-3 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-blue-600 dark:hover:bg-blue-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Editar
                         </button>
                         <button (click)="openTaskDialog('generateBill', b.Id)"
-                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-green-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-md text-sm px-5 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-green-600 dark:hover:bg-green-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Generar Factura
                         </button>
                         }
                         <button (click)="commonService.generatePDF('budget', b.Id)"
-                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-yellow-600 dark:hover:bg-yellow-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-md text-sm px-5 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-yellow-600 dark:hover:bg-yellow-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Descargar
                             <img class="inline-block w-6 h-6 rounded"
                                 src="https://img.icons8.com/?size=100&id=13417&format=png&color=000000" />
                         </button>
                         <button (click)="sendEmail(b)"
-                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-white-600 dark:hover:bg-white-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-md text-sm px-5 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-white-600 dark:hover:bg-white-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Mandar Email
                             <img class="inline-block w-6 h-6 rounded"
                                 src="https://img.icons8.com/?size=100&id=xLIkjgcmFOsC&format=png&color=000000" />
                         </button>
                         <button (click)="deleteBudget(b.Id)"
-                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-red-600 dark:hover:bg-red-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+                            class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-md text-sm px-5 py-1 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-red-600 dark:hover:bg-red-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
                             Eliminar
                         </button>
                     </td>

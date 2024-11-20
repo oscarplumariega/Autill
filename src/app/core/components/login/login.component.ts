@@ -76,8 +76,8 @@ export class LoginComponent {
           }
         });
       }else{
-        this.apiService.auth(this.registerForm.value, action).subscribe({
-          complete: () => {
+        this.apiService.auth(this.registerForm.value, action).subscribe((token: any) => {
+            localStorage.setItem('token',token.access_token);
             setTimeout(() => {
               localStorage.setItem('email',this.registerForm.controls['Email'].value);
               this.userService.getUserByEmail( localStorage.getItem('email') || "[]").subscribe((data:any) => {
@@ -86,7 +86,6 @@ export class LoginComponent {
 
               this.router.navigate(['/home']);
             }, 1000)
-          }
         });
       }
     }

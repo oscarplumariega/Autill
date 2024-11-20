@@ -33,7 +33,6 @@ export class ItemsComponent {
 
   ngOnInit() {
     this.itemService.getItems(localStorage.getItem('id') || "[]", null, 10, 0).subscribe((items:any) => {
-      console.log(items);
       this.allItems = items;
       this.dataItems = items.data;
       this.items = items.data;

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -11,17 +11,30 @@ export class BillService {
 
   private readonly api = 'http://localhost:3000/api/v1';
 
+  private getHeaders(): HttpHeaders {
+    const authToken = localStorage.getItem('token');
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${authToken}`
+    });
+  }
+
   getBills(id:string, filters: any, t: number, s:number): Observable<any>{
     const body = {userId: id, filters: filters, take: t, skip: s};
+    const headers = this.getHeaders();
 
-    return this.http.post(this.api+'/Bills/getList',body);
+    return this.http.post(this.api+'/Bills/getList',body,{headers});
   }
   deleteBill(id: number){
-    return this.http.delete(this.api+'/Bills/'+id);
+    const headers = this.getHeaders();
+
+    return this.http.delete(this.api+'/Bills/'+id,{headers});
   }
   cloneRegister(id:number){
     const body = {id: id};
+    const headers = this.getHeaders();
 
-    return this.http.post(this.api+'/Bills/generateBill',body);
+    return this.http.post(this.api+'/Bills/generateBill',body,{headers});
   }
 }
