@@ -68,6 +68,11 @@ export class BillsComponent {
     })
   }
 
+  cashed(id: number){
+    this.billService.cashed(id).subscribe();
+    window.location.reload();
+  }
+
   updateSearching(formControlValue: any){
     this.bills = this.dataBills;
 

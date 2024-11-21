@@ -37,4 +37,9 @@ export class BillService {
 
     return this.http.post(this.api+'/Bills/generateBill',body,{headers});
   }
+  cashed(id:number){
+    const headers = this.getHeaders();
+
+    return this.http.get(this.api+'/Bills/cashed/'+id,{headers});
+  }
 }
