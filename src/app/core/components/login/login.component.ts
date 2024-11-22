@@ -5,6 +5,7 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 import { Router } from '@angular/router';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 import { UserService } from '../../services/user.service';
+import { Messages } from '../../services/common-service.service';
 
 @Component({
   selector: 'app-login',
@@ -42,6 +43,9 @@ export class LoginComponent {
   loading:boolean = false;
   apiService = inject(ApiService);
   userService = inject(UserService);
+  formatEmail = false;
+  formatPassword = false;
+  messages = Messages;
 
   initializeForm(){
     this.registerForm = new FormGroup({
@@ -62,8 +66,8 @@ export class LoginComponent {
   }
 
   authUser(action: string){
-    this.loading = true;
     if (this.registerForm.valid) {
+      this.loading = true;
       if(action === 'register') {
         this.apiService.auth(this.registerForm.value, action).subscribe({
           error: (err) => {
@@ -87,6 +91,13 @@ export class LoginComponent {
               this.router.navigate(['/home']);
             }, 1000)
         });
+      }
+    }else{
+      if(!this.registerForm.controls['Email'].valid){
+        this.formatEmail = true;
+      }
+      if(!this.registerForm.controls['Password'].valid){
+        this.formatPassword = true;
       }
     }
   }

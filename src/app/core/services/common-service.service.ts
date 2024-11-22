@@ -6,6 +6,15 @@ import { BudgetService } from './budget.service';
 import { ClientService } from './client.service';
 import { UserService } from './user.service';
 
+export let Messages = {
+  "EMAIL_MSG":"El email debe de tener un formato válido.",
+  "PNUMBER_MSG":"El número de teléfono debe de tener un formato válido.",
+  "NIF_MSG":"El NIF debe de tener un formato válido.",
+  "PASSWORD_MSG":"La contraseña tiene que tener una mayúscula, número, carácter especial (!,?...) y mínimo 8 carácteres.",
+  "NAME_MSG":"El nombre debe de tener un formato válido.",
+  "ZIP_MSG":"El código postal debe de tener un formato válido."
+}
+
 @Injectable({
   providedIn: 'root'
 })

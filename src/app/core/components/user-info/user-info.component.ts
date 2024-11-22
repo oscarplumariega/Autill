@@ -6,6 +6,7 @@ import { SpinnerLoadingComponent } from '../../../shared/components/spinner-load
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
+import { Messages } from '../../services/common-service.service';
 
 @Component({
   selector: 'app-user-info',
@@ -20,10 +21,16 @@ export class UserInfoComponent {
   loading: boolean = false;
   emailLogin: string = '';
   userService = inject(UserService);
+  formatNif = false;
+  formatZip = false;
+  formatName = false;
+  formatPhoneNumber = false;
+  formatEmail = false;
+  messages = Messages;
 
   initializeForm(){
     this.userInfo = new FormGroup({
-      FullName: new FormControl('',Validators.required),
+      FullName: new FormControl('',[Validators.required,Validators.pattern('^[a-zA-Z ]*$')]),
       Email: new FormControl('',[Validators.required, Validators.email]),
       Address: new FormControl(),
       PhoneNumber: new FormControl('',[Validators.pattern(/^[+]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?)(?:[ -]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?))*(?:[ ]?(?:x|ext)\.?[ ]?\d{1,5})?$/), Validators.required, Validators.maxLength(9)]),
@@ -60,6 +67,22 @@ export class UserInfoComponent {
           }, 2000)
         }
       })
+    }else{
+      if(!this.userInfo.controls['PhoneNumber'].valid){
+        this.formatPhoneNumber = true;
+      }
+      if(!this.userInfo.controls['FullName'].valid){
+        this.formatName = true;
+      }
+      if(!this.userInfo.controls['Nif'].valid){
+        this.formatNif = true;
+      }
+      if(!this.userInfo.controls['PostalCode'].valid){
+        this.formatZip = true;
+      }
+      if(!this.userInfo.controls['Email'].valid){
+        this.formatEmail = true;
+      }
     }
   }
 
