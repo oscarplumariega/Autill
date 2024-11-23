@@ -46,6 +46,7 @@ export class LoginComponent {
   formatEmail = false;
   formatPassword = false;
   messages = Messages;
+  show: boolean = false;
 
   initializeForm(){
     this.registerForm = new FormGroup({
@@ -63,6 +64,10 @@ export class LoginComponent {
       Email: ['', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
       Password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
     });
+  }
+
+  seePassword(){
+    this.show = !this.show;
   }
 
   authUser(action: string){
