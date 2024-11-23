@@ -89,10 +89,18 @@ export class BudgetDetailsComponent {
 
   addItem(id: number, type:string) {
     if(type === 'form'){
+      let units = parseFloat(this.detailsForm.controls['Units' + (id-1)].value);
+
+      this.items[(id-1)].Name = this.detailsForm.controls['Item' + (id-1)].value;
+      this.items[(id-1)].Units = units;
+      this.items[(id-1)].Price = parseFloat(this.lasItemAdded.Price);
+      this.items[(id-1)].TotalConcept = Number((units * this.items[(id-1)].Price).toFixed(2));
+
       this.newFormControls(id);
 
       this.items.push({ Id: id, Name: '', Units: 0, Price: 0, TotalConcept: 0 });
     }else{
+      console.log(this.items);
       let units = parseFloat(this.detailsForm.controls['Units' + id].value);
 
       this.items[id].Name = this.detailsForm.controls['Item' + id].value;
@@ -141,6 +149,7 @@ export class BudgetDetailsComponent {
   }
 
   addItems() {
+    console.log(this.items);
     this.addItem(this.items.length - 1, 'new');
     //this.items.pop();
 
