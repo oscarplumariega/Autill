@@ -36,7 +36,7 @@ export class ClientsModalComponent {
       Email: new FormControl('',[Validators.required, Validators.email]),
       Country: new FormControl(),
       IdBusiness: new FormControl(localStorage.getItem('id') || "[]"),
-      Nif: new FormControl('',[Validators.pattern(/^[A-Va-w][0-9]{8}[A-Z]$|^[0-9]{7}[0-9A-Ja]$/), Validators.required, Validators.maxLength(9)]),
+      Nif: new FormControl('',[Validators.pattern(/(^[ABCDFGHJKLMNPQRSUVWabcdfghlmnpqrsuvw]([0-9]{7})([0-9A-Ja]$))|(^[0-9]{8}[A-Z]$)/), Validators.required, Validators.maxLength(9)]),
       PhoneNumber: new FormControl('',[Validators.pattern(/^[+]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?)(?:[ -]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?))*(?:[ ]?(?:x|ext)\.?[ ]?\d{1,5})?$/), Validators.required, Validators.maxLength(9)])
     })
   }

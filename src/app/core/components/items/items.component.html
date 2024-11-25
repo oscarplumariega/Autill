@@ -3,7 +3,7 @@
         <app-errors [errorMessage]="errorMessage"></app-errors>
     }
     @else {
-        @if(items){ @if(items.length > 0){
+        @if(items){ @if(items.count > 0){
             <app-search-filters [dataScreen]="dataScreen" (updateSearching)="updateSearching($event)"></app-search-filters>
             <div class="min-h-screen w-full bg-white dark:bg-gray-800">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -25,7 +25,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @for (i of items; track i.Id){
+                        @for (i of items.data; track i.Id){
                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                             <th scope="row" class="px-10 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                 {{ i.Name }}

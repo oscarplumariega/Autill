@@ -24,6 +24,7 @@ export class ClientsComponent {
   clientService = inject(ClientService);
   errorMessage: string = '';
   dataClients: any = [];
+  filtersActivated: any = null;
 
   constructor(private dialog: MatDialog){}
 
@@ -57,24 +58,20 @@ export class ClientsComponent {
   }
 
   updateSearching(formControlValue: any){
-    if(typeof formControlValue === 'string'){
-      this.clients = this.dataClients;
+    if(formControlValue === ""){
+      this.filtersActivated = null;
+      this.clientService.getClients(localStorage.getItem('id') || "[]", null, 10, 0).subscribe((clients:any) => {
+        this.allClients = clients;
+        this.dataClients = clients;
+        this.clients = clients;
+      })
     }else{
-      this.clients = this.dataClients;
-
-      for(let k in formControlValue){
-        if(formControlValue[k] !== null && formControlValue[k] !== ''){
-          if(k === 'name'){
-            this.clients = this.clients.filter((item:any) => (item.name.toLowerCase()).includes(formControlValue[k].toLowerCase()));
-          }else if(k === 'nif'){
-            this.clients = this.clients.filter((item:any) => (item.nif.toLowerCase()).includes(formControlValue[k].toLowerCase()));
-          }else if(k === 'phoneNumber'){
-            this.clients = this.clients.filter((item:any) => item.phoneNumber.includes(formControlValue[k].toString()));
-          }
-        }
-      }
+      this.filtersActivated  = formControlValue;
+      this.clientService.getClients(localStorage.getItem('id') || "[]", formControlValue, 10, 0).subscribe((filterBudgets: any) => {
+        this.clients = filterBudgets;
+        this.allClients = this.clients;
+      });
     }
-    this.allClients = this.clients;
   }
 
   deleteClient(id: number){

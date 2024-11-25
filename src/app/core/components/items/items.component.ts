@@ -26,6 +26,7 @@ export class ItemsComponent {
   commonService = inject(CommonService);
   errorMessage: string = '';
   allItems: any = [];
+  filtersActivated: any = null;
 
   displayedColumns: string[] = ['name', 'price', 'actions'];
 
@@ -34,8 +35,8 @@ export class ItemsComponent {
   ngOnInit() {
     this.itemService.getItems(localStorage.getItem('id') || "[]", null, 10, 0).subscribe((items:any) => {
       this.allItems = items;
-      this.dataItems = items.data;
-      this.items = items.data;
+      this.dataItems = items;
+      this.items = items;
     })
   }
 
@@ -53,25 +54,26 @@ export class ItemsComponent {
   updateItems(pagination: any){
     this.itemService.getItems(localStorage.getItem('id') || "[]", null, 10, pagination.skip).subscribe((items:any) => {
       this.allItems = items;
-      this.dataItems = items.data;
-      this.items = items.data;
+      this.dataItems = items;
+      this.items = items;
     })
   }
 
   updateSearching(formControlValue: any){
-    this.items = this.dataItems;
-
-    for(let k in formControlValue){
-      if(formControlValue[k] !== null && formControlValue[k] !== ''){
-        if(k === 'name'){
-          this.items = this.items.filter((item:any) => item.name.includes(formControlValue[k]));
-        }else if(k === 'clientId'){
-          this.items = this.items.filter((item:any) => item.clientName === formControlValue[k]);
-        }
-      }
+    if(formControlValue === ""){
+      this.filtersActivated = null;
+      this.itemService.getItems(localStorage.getItem('id') || "[]", null, 10, 0).subscribe((items:any) => {
+        this.allItems = items;
+        this.dataItems = items;
+        this.items = items;
+      })
+    }else{
+      this.filtersActivated  = formControlValue;
+      this.itemService.getItems(localStorage.getItem('id') || "[]", formControlValue, 10, 0).subscribe((filterItems: any) => {
+        this.items = filterItems;
+        this.allItems = this.items;
+      });
     }
-
-    this.allItems = this.items;
   }
 
   deleteItem(id:number){
