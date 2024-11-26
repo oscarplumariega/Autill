@@ -5,12 +5,14 @@ import { BudgetModalComponent } from '../../../shared/components/budget-modal/bu
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorsComponent } from "../../../shared/components/errors/errors.component";
 import { DeleteItemModalComponent } from '../../../shared/components/delete-item-modal/delete-item-modal.component';
-import { CommonService } from '../../services/common-service.service';
+import { CommonService, Messages } from '../../services/common-service.service';
 import { BudgetService } from '../../services/budget.service';
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
 import { SearchFiltersComponent } from "../../../shared/components/search-filters/search-filters.component";
 import { UserService } from '../../services/user.service';
 import { ClientService } from '../../services/client.service';
+import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
+import { SendEmailComponent } from '../../../shared/components/send-email/send-email.component';
 
 @Component({
   selector: 'app-budgets',
@@ -99,7 +101,9 @@ export class BudgetsComponent {
 
   deleteBudget(id: number) {
     const dialogRef = this.dialog.open(DeleteItemModalComponent);
-    dialogRef.componentInstance.type = 'el presupuesto'
+    dialogRef.componentInstance.type = 'presupuesto';
+    dialogRef.componentInstance.title = Messages.DELETE_BUDGET_TITLE;
+    dialogRef.componentInstance.message = Messages.DELETE_BUDGET_MSG;
     dialogRef.componentInstance.id = id;
 
     dialogRef.afterClosed().subscribe(result => {
@@ -113,7 +117,11 @@ export class BudgetsComponent {
   sendEmail(budget: any) {
     this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user: any) => {
       this.clientService.getClientById(budget.ClientId).subscribe((client: any) => {
-        this.budgetService.sendEmail(user, client, budget).subscribe();
+        const dialogRef = this.dialog.open(SendEmailComponent);
+        dialogRef.componentInstance.message = Messages.SEND_EMAIL + client.Email + '?';
+        dialogRef.componentInstance.client = client;
+        dialogRef.componentInstance.user = user;
+        dialogRef.componentInstance.budget = budget;
       })
     })
   }

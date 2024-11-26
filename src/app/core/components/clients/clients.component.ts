@@ -7,6 +7,7 @@ import { ErrorsComponent } from '../../../shared/components/errors/errors.compon
 import { ClientService } from '../../services/client.service';
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
 import { SearchFiltersComponent } from '../../../shared/components/search-filters/search-filters.component';
+import { Messages } from '../../services/common-service.service';
 
 @Component({
   selector: 'app-clients',
@@ -76,7 +77,9 @@ export class ClientsComponent {
 
   deleteClient(id: number){
     const dialogRef = this.dialog.open(DeleteItemModalComponent);
-    dialogRef.componentInstance.type = 'el cliente'
+    dialogRef.componentInstance.type = 'cliente';
+    dialogRef.componentInstance.title = Messages.DELETE_CLIENT_TITLE;
+    dialogRef.componentInstance.message = Messages.DELETE_CLIENT_MSG;
     dialogRef.componentInstance.id = id;
 
     dialogRef.afterClosed().subscribe(result => {

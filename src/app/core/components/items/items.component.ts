@@ -7,7 +7,7 @@ import { ErrorsComponent } from '../../../shared/components/errors/errors.compon
 import { ItemService } from '../../services/item.service';
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
 import { SearchFiltersComponent } from '../../../shared/components/search-filters/search-filters.component';
-import { CommonService } from '../../services/common-service.service';
+import { CommonService, Messages } from '../../services/common-service.service';
 
 @Component({
   selector: 'app-items',
@@ -78,7 +78,9 @@ export class ItemsComponent {
 
   deleteItem(id:number){
     const dialogRef = this.dialog.open(DeleteItemModalComponent);
-    dialogRef.componentInstance.type = 'el producto'
+    dialogRef.componentInstance.type = 'producto';
+    dialogRef.componentInstance.title = Messages.DELETE_ITEM_TITLE;
+    dialogRef.componentInstance.message = Messages.DELETE_ITEM_MSG;
     dialogRef.componentInstance.id = id;
 
     dialogRef.afterClosed().subscribe(result => {

@@ -3,7 +3,7 @@ import { ApiService } from '../../services/api.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DeleteItemModalComponent } from '../../../shared/components/delete-item-modal/delete-item-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { CommonService } from '../../services/common-service.service';
+import { CommonService, Messages } from '../../services/common-service.service';
 import { BillService } from '../../services/bill.service';
 import { ClientService } from '../../services/client.service';
 import { PaginatorComponent } from '../../../shared/components/paginator/paginator.component';
@@ -99,7 +99,9 @@ export class BillsComponent {
 
   deleteBill(id: number) {
     const dialogRef = this.dialog.open(DeleteItemModalComponent);
-    dialogRef.componentInstance.type = 'la factura'
+    dialogRef.componentInstance.type = 'factura';
+    dialogRef.componentInstance.title = Messages.DELETE_BILL_TITLE;
+    dialogRef.componentInstance.message = Messages.DELETE_BILL_MSG;
     dialogRef.componentInstance.id = id;
 
     dialogRef.afterClosed().subscribe(result => {

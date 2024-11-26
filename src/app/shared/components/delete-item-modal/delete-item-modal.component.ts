@@ -16,6 +16,8 @@ import { ItemService } from '../../../core/services/item.service';
 })
 export class DeleteItemModalComponent {
   type: string = '';
+  title: string = '';
+  message: string = '';
   id!: number;
   apiService = inject(ApiService);
   budgetService = inject(BudgetService);
