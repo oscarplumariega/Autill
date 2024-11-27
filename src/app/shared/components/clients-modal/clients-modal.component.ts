@@ -58,7 +58,6 @@ export class ClientsModalComponent {
   }
 
   actionClient(){
-    console.log(this.clientForm);
     if(this.clientForm.valid){
       this.loading = true;
       if(this.id == 0){

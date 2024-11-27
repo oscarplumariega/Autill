@@ -53,8 +53,8 @@ export class BudgetService {
 
     return this.http.get(this.api+'/Budgets/'+id, {headers});
   }
-  sendEmail(from:any, to:any, mail:any){
-    const body = {from: from, to: to, mail: mail};
+  sendEmail(from:any, to:any, mail:any, file:any){
+    const body = {from: from, to: to, mail: mail, file: file};
     const headers = this.getHeaders();
 
     return this.http.post(this.api+'/Budgets/mailInfo', body, {headers});

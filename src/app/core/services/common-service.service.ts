@@ -5,6 +5,8 @@ import autoTable from 'jspdf-autotable'
 import { BudgetService } from './budget.service';
 import { ClientService } from './client.service';
 import { UserService } from './user.service';
+import { InfoModalComponent } from '../../shared/components/info-modal/info-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export let Messages = {
   "EMAIL_MSG":"El email debe de tener un formato válido.",
@@ -34,9 +36,10 @@ export class CommonService {
   clientService = inject(ClientService);
   userService = inject(UserService);
 
-  constructor() { }
+  constructor(private dialog: MatDialog, ) { }
 
   generatePDF(type:string, id:number){
+    const file = new jsPDF();
     let title = '';
     if(type === 'bill') {
       title = 'Factura'
@@ -46,35 +49,32 @@ export class CommonService {
 
     this.budgetService.getBudgetById(id).subscribe((budget:any) => {
       this.userService.getUserById(budget.IdBusiness).subscribe((user: any) => {
-        this.clientService.getClientById(budget.ClientId).subscribe({
-          next: (client:any) =>{
-            const doc = new jsPDF();
-  
-            doc.setFontSize(28);
-            doc.setFont('courier');
+        this.clientService.getClientById(budget.ClientId).subscribe((client:any) =>{
+            file.setFontSize(28);
+            file.setFont('courier');
             //title
-            doc.text(title + ' - ' + budget.Name.split('-').pop(), 100, 20);
+            file.text(title + ' - ' + budget.Name.split('-').pop(), 100, 20);
 
             if(user.logo != null){
-              doc.addImage(user.Logo, 'JPEG', 0, 0, 30, 30);
+              file.addImage(user.Logo, 'JPEG', 0, 0, 30, 30);
             }
     
-            doc.setFontSize(14);
+            file.setFontSize(14);
             //user data
-            doc.text(user.FullName, 10, 40);
-            doc.text(user.Email, 10, 50);
-            doc.text(user.Nif, 10, 60);
-            doc.text(user.Address, 10, 70);
-            doc.text(user.Region + ' ' + user.Country, 10, 80);
-            doc.text(user.PhoneNumber.toString(), 10, 90);
+            file.text(user.FullName, 10, 40);
+            file.text(user.Email, 10, 50);
+            file.text(user.Nif, 10, 60);
+            file.text(user.Address, 10, 70);
+            file.text(user.Region + ' ' + user.Country, 10, 80);
+            file.text(user.PhoneNumber.toString(), 10, 90);
     
             //client data
-            doc.text(client.Name, 120, 40);
-            doc.text(client.Email, 120, 50);
-            doc.text(client.Nif, 120, 60);
-            doc.text(client.Address, 120, 70);
-            doc.text(client.Region + ' ' + client.Country, 120, 80);
-            doc.text(client.PhoneNumber.toString(), 120, 90);
+            file.text(client.Name, 120, 40);
+            file.text(client.Email, 120, 50);
+            file.text(client.Nif, 120, 60);
+            file.text(client.Address, 120, 70);
+            file.text(client.Region + ' ' + client.Country, 120, 80);
+            file.text(client.PhoneNumber.toString(), 120, 90);
 
             let bodyFormatItems = [];
 
@@ -83,20 +83,23 @@ export class CommonService {
               bodyFormatItems.push([items[i].Name, items[i].Units, items[i].Price, items[i].TotalConcept]);
             }
 
-            autoTable(doc, {
+            autoTable(file, {
               margin: { top: 100 },
               head: [["Concepto","Unidades","Precio/Unidad","Total"]],
               body: bodyFormatItems,
             })
 
-            doc.text("Subtotal   " + budget.Price, 150, 260);
-            doc.text("IVA 21%   " + Number((budget.Price*0.21).toFixed(2)) + "€", 150, 270);
+            file.text("Subtotal   " + budget.Price, 150, 260);
+            file.text("IVA 21%   " + Number((budget.Price*0.21).toFixed(2)) + "€", 150, 270);
 
-            doc.setFont('courier','bold');
-            doc.text("TOTAL   " + Number((budget.Price*1.21).toFixed(2)) + "€", 150, 290);
-    
-            doc.save(title + '-' + budget.Name.split('-').pop()+".pdf");
-          } 
+            file.setFont('courier','bold');
+            file.text("TOTAL   " + Number((budget.Price*1.21).toFixed(2)) + "€", 150, 290);
+
+            //doc.save(title + '-' + budget.Name.split('-').pop()+".pdf");
+            this.budgetService.sendEmail(user, client, budget, file.output('datauristring')).subscribe(() => {
+              const dialogRef = this.dialog.open(InfoModalComponent);
+              dialogRef.componentInstance.message = Messages.EMAIL_OK;
+            });
         })
       });
     })

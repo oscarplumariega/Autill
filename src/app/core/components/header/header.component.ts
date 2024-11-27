@@ -11,6 +11,5 @@ export class HeaderComponent {
 
   logout(){
     localStorage.clear();
-    console.log(localStorage);
   }
 }
