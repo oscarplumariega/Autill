@@ -43,7 +43,7 @@ export class SendEmailComponent {
     }
 
     setTimeout(() => {
-      this.commonService.generatePDF(type, fileData.Id);
+      this.commonService.generatePDF('email',type, fileData.Id);
 
       //window.location.reload();
     }, 2000)

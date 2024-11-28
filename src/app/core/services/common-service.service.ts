@@ -38,7 +38,7 @@ export class CommonService {
 
   constructor(private dialog: MatDialog, ) { }
 
-  generatePDF(type:string, id:number){
+  generatePDF(action:string, type:string, id:number){
     const file = new jsPDF();
     let title = '';
     if(type === 'bill') {
@@ -95,11 +95,14 @@ export class CommonService {
             file.setFont('courier','bold');
             file.text("TOTAL   " + Number((budget.Price*1.21).toFixed(2)) + "€", 150, 290);
 
-            //doc.save(title + '-' + budget.Name.split('-').pop()+".pdf");
-            this.budgetService.sendEmail(user, client, budget, file.output('datauristring')).subscribe(() => {
-              const dialogRef = this.dialog.open(InfoModalComponent);
-              dialogRef.componentInstance.message = Messages.EMAIL_OK;
-            });
+            if(action === 'email'){
+              this.budgetService.sendEmail(user, client, budget, file.output('datauristring')).subscribe(() => {
+                const dialogRef = this.dialog.open(InfoModalComponent);
+                dialogRef.componentInstance.message = Messages.EMAIL_OK;
+              });
+            }else{
+              file.save(title + '-' + budget.Name.split('-').pop()+".pdf");
+            }
         })
       });
     })
