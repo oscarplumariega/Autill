@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
+import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -10,10 +13,21 @@ import { Subscription } from 'rxjs';
 })
 export class HomeComponent {
   emailLogin: string = '';
+  userService = inject(UserService);
+  dataComplete = false;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
-
+    if (localStorage.getItem('id') != null) {
+      this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user: any) => {
+        if (user.DataComplete) {
+          this.dataComplete = true;
+        } else {
+          const dialogRef = this.dialog.open(InfoModalComponent);
+          dialogRef.componentInstance.message = 'Debe de completar sus datos personales para comenzar a realizar presupuestos.';
+        }
+      })
+    }
   }
 }

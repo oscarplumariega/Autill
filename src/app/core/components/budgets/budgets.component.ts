@@ -11,7 +11,6 @@ import { PaginatorComponent } from '../../../shared/components/paginator/paginat
 import { SearchFiltersComponent } from "../../../shared/components/search-filters/search-filters.component";
 import { UserService } from '../../services/user.service';
 import { ClientService } from '../../services/client.service';
-import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
 import { SendEmailComponent } from '../../../shared/components/send-email/send-email.component';
 
 @Component({
@@ -115,7 +114,7 @@ export class BudgetsComponent {
   }
 
   sendEmail(budget: any) {
-    this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user: any) => {
+    this.userService.getUserById(localStorage.getItem('id')).subscribe((user: any) => {
       this.clientService.getClientById(budget.ClientId).subscribe((client: any) => {
         const dialogRef = this.dialog.open(SendEmailComponent);
         dialogRef.componentInstance.message = Messages.SEND_EMAIL + client.Email + '?';

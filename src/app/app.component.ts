@@ -12,8 +12,12 @@ import { HeaderComponent } from './core/components/header/header.component';
 })
 export class AppComponent {
   isLogin: boolean = false;
+  dataComplete = false;
 
   constructor(private router: Router) {
+  }
+
+  ngOnInit() {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd){
         if(event.url === '/'){

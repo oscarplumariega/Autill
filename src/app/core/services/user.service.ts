@@ -44,7 +44,7 @@ export class UserService {
 
     return this.http.get(this.api+'/Users/getByEmail/'+email,{headers});
   }
-  getUserById(id: string) {
+  getUserById(id: any) {
     const headers = this.getHeaders();
 
     return this.http.get(this.api+'/Users/'+id,{headers});

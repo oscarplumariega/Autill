@@ -1,11 +1,11 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { ApiService } from '../../services/api.service';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { Router } from '@angular/router';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 import { UserService } from '../../services/user.service';
-import { Messages } from '../../services/common-service.service';
+import { CommonService, Messages } from '../../services/common-service.service';
 
 @Component({
   selector: 'app-login',
@@ -43,10 +43,12 @@ export class LoginComponent {
   loading:boolean = false;
   apiService = inject(ApiService);
   userService = inject(UserService);
+  commonService = inject(CommonService);
   formatEmail = false;
   formatPassword = false;
   messages = Messages;
   show: boolean = false;
+  @Output() newItemEvent = new EventEmitter<boolean>();
 
   initializeForm(){
     this.registerForm = new FormGroup({
@@ -91,6 +93,9 @@ export class LoginComponent {
               localStorage.setItem('email',this.registerForm.controls['Email'].value);
               this.userService.getUserByEmail( localStorage.getItem('email') || "[]").subscribe((data:any) => {
                 localStorage.setItem('id',data.Id);
+                this.commonService.setDatComplete$.subscribe((value) => {
+                  this.commonService.setDataComplete(true);
+                })
               })
 
               this.router.navigate(['/home']);
