@@ -42,12 +42,8 @@ export class CommonService {
 
   constructor(private dialog: MatDialog, ) { }
 
-
   setDataComplete(status: boolean) {
     this.dataComplete$.next(status);
-  }
-  getDataComplete(){
-    return this.dataComplete$.getValue();
   }
   generatePDF(action:string, type:string, id:number){
     const file = new jsPDF();
@@ -63,7 +59,7 @@ export class CommonService {
         this.clientService.getClientById(budget.ClientId).subscribe((client:any) =>{
             file.setFontSize(28);
             file.setFont('courier');
-            //title
+            
             file.text(title + ' - ' + budget.Name.split('-').pop(), 100, 20);
 
             if(user.logo != null){
@@ -71,7 +67,7 @@ export class CommonService {
             }
     
             file.setFontSize(14);
-            //user data
+            
             file.text(user.FullName, 10, 40);
             file.text(user.Email, 10, 50);
             file.text(user.Nif, 10, 60);
@@ -79,7 +75,6 @@ export class CommonService {
             file.text(user.Region + ' ' + user.Country, 10, 80);
             file.text(user.PhoneNumber.toString(), 10, 90);
     
-            //client data
             file.text(client.Name, 120, 40);
             file.text(client.Email, 120, 50);
             file.text(client.Nif, 120, 60);
