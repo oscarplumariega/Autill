@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { SpinnerLoadingComponent } from '../../../shared/components/spinner-loading/spinner-loading.component';
 import { UserService } from '../../services/user.service';
 import { CommonService, Messages } from '../../services/common-service.service';
+import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -57,7 +59,7 @@ export class LoginComponent {
     })
   }
   
-  constructor(private formBuilder: FormBuilder, private router: Router){
+  constructor(private dialog: MatDialog, private formBuilder: FormBuilder, private router: Router){
     this.initializeForm();
   }
 
@@ -93,12 +95,15 @@ export class LoginComponent {
               localStorage.setItem('email',this.registerForm.controls['Email'].value);
               this.userService.getUserByEmail( localStorage.getItem('email') || "[]").subscribe((data:any) => {
                 localStorage.setItem('id',data.Id);
-                this.commonService.setDatComplete$.subscribe((value) => {
+                if(data.DataComplete){
                   this.commonService.setDataComplete(true);
-                })
+                  this.router.navigate(['/home']);
+                }else{
+                  const dialogRef = this.dialog.open(InfoModalComponent);
+                  dialogRef.componentInstance.message = 'Debe de completar sus datos personales para comenzar a realizar presupuestos.';
+                  this.router.navigate(['/userInfo']);
+                }
               })
-
-              this.router.navigate(['/home']);
             }, 1000)
         });
       }

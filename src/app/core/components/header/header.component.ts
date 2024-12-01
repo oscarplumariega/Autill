@@ -3,7 +3,6 @@ import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoModalComponent } from '../../../shared/components/info-modal/info-modal.component';
 import { CommonService } from '../../services/common-service.service';
-import { BehaviorSubject, map } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -15,17 +14,22 @@ import { BehaviorSubject, map } from 'rxjs';
 export class HeaderComponent {
   userService = inject(UserService);
   commonService = inject(CommonService);
-  dataComplete = false;
-
-  public dataComplete$ = new BehaviorSubject(false);
+  dataComplete:any;
 
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
-    console.log(this.dataComplete$.getValue());
+    console.log(this.dataComplete);
+    this.commonService.getDataComplete().subscribe({
+      next: dataComplete => {
+        console.log(dataComplete);
+        this.dataComplete = dataComplete;
+      }
+    });
   }
 
   logout(){
+    this.commonService.setDataComplete(false);
     localStorage.clear();
   }
 }

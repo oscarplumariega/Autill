@@ -12,22 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  emailLogin: string = '';
-  userService = inject(UserService);
-  dataComplete = false;
 
-  constructor(private dialog: MatDialog) { }
-
-  ngOnInit() {
-    if (localStorage.getItem('id') != null) {
-      this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((user: any) => {
-        if (user.DataComplete) {
-          this.dataComplete = true;
-        } else {
-          const dialogRef = this.dialog.open(InfoModalComponent);
-          dialogRef.componentInstance.message = 'Debe de completar sus datos personales para comenzar a realizar presupuestos.';
-        }
-      })
-    }
+  constructor(private dialog: MatDialog) { 
   }
+
 }

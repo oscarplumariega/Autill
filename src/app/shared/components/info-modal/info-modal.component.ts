@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Messages } from '../../../core/services/common-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-info-modal',
@@ -12,7 +13,7 @@ import { Messages } from '../../../core/services/common-service.service';
 export class InfoModalComponent {
   message: string = '';
 
-  constructor(public dialogRef: MatDialogRef<InfoModalComponent>) {
+  constructor(public dialogRef: MatDialogRef<InfoModalComponent>, private router: Router) {
   }
 
   onClose(): void {
@@ -20,7 +21,7 @@ export class InfoModalComponent {
   }
   confirm(){
     this.dialogRef.close();
-    window.location.reload();
+    //window.location.reload();
     //this.dialogRef.close('confirm');
   }
 }

@@ -38,13 +38,17 @@ export class CommonService {
   userService = inject(UserService);
 
   public dataComplete$ = new BehaviorSubject<boolean>(false);
-  setDatComplete$ = this.dataComplete$.asObservable();
 
   constructor(private dialog: MatDialog, ) { }
 
   setDataComplete(status: boolean) {
     this.dataComplete$.next(status);
   }
+
+  getDataComplete(){
+    return this.dataComplete$.asObservable();
+  }
+
   generatePDF(action:string, type:string, id:number){
     const file = new jsPDF();
     let title = '';
