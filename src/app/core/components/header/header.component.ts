@@ -19,10 +19,8 @@ export class HeaderComponent {
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
-    console.log(this.dataComplete);
     this.commonService.getDataComplete().subscribe({
       next: dataComplete => {
-        console.log(dataComplete);
         this.dataComplete = dataComplete;
       }
     });

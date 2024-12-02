@@ -6,7 +6,7 @@ import { SpinnerLoadingComponent } from '../../../shared/components/spinner-load
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from '../../services/user.service';
-import { Messages } from '../../services/common-service.service';
+import { CommonService, Messages } from '../../services/common-service.service';
 
 @Component({
   selector: 'app-user-info',
@@ -27,6 +27,7 @@ export class UserInfoComponent {
   formatPhoneNumber = false;
   formatEmail = false;
   messages = Messages;
+  commonService = inject(CommonService);
 
   initializeForm(){
     this.userInfo = new FormGroup({
@@ -40,7 +41,8 @@ export class UserInfoComponent {
       PostalCode: new FormControl(),
       Region: new FormControl(),
       Country: new FormControl(),
-      Password: new FormControl()
+      Password: new FormControl(),
+      DataComplete: new FormControl()
     })
   }
 
@@ -52,6 +54,9 @@ export class UserInfoComponent {
     this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((data: any) => {
       this.userInfo.setValue(data);
       this.logoPath = data.logo;
+      if(!data.DataComplete){
+        this.commonService.setDataComplete(false);
+      }
     })
   }
 

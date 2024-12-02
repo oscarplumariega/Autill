@@ -21,7 +21,7 @@ export class InfoModalComponent {
   }
   confirm(){
     this.dialogRef.close();
-    //window.location.reload();
+    window.location.reload();
     //this.dialogRef.close('confirm');
   }
 }

@@ -44,8 +44,6 @@ export class SendEmailComponent {
 
     setTimeout(() => {
       this.commonService.generatePDF('email',type, fileData.Id);
-
-      //window.location.reload();
     }, 2000)
 
     //this.dialogRef.close('confirm');

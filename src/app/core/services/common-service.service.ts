@@ -37,7 +37,7 @@ export class CommonService {
   clientService = inject(ClientService);
   userService = inject(UserService);
 
-  public dataComplete$ = new BehaviorSubject<boolean>(false);
+  public dataComplete$ = new BehaviorSubject<boolean>(true);
 
   constructor(private dialog: MatDialog, ) { }
 
