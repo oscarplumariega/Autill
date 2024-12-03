@@ -7,7 +7,6 @@ import { ClientService } from './client.service';
 import { UserService } from './user.service';
 import { InfoModalComponent } from '../../shared/components/info-modal/info-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 export let Messages = {
   "EMAIL_MSG":"El email debe de tener un formato válido.",
@@ -37,17 +36,7 @@ export class CommonService {
   clientService = inject(ClientService);
   userService = inject(UserService);
 
-  public dataComplete$ = new BehaviorSubject<boolean>(true);
-
   constructor(private dialog: MatDialog, ) { }
-
-  setDataComplete(status: boolean) {
-    this.dataComplete$.next(status);
-  }
-
-  getDataComplete(){
-    return this.dataComplete$.asObservable();
-  }
 
   generatePDF(action:string, type:string, id:number){
     const file = new jsPDF();

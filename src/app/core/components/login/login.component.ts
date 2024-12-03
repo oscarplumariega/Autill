@@ -96,14 +96,7 @@ export class LoginComponent {
           localStorage.setItem('email', this.loginForm.controls['Email'].value);
           this.userService.getUserByEmail(localStorage.getItem('email') || "[]").subscribe((data: any) => {
             localStorage.setItem('id', data.Id);
-            if (data.DataComplete) {
-              this.router.navigate(['/home']);
-            } else {
-              this.commonService.setDataComplete(false);
-              const dialogRef = this.dialog.open(InfoModalComponent);
-              dialogRef.componentInstance.message = 'Debe de completar sus datos personales para comenzar a realizar presupuestos.';
-              this.router.navigate(['/userInfo']);
-            }
+            this.router.navigate(['/home']);
           })
         }, 1000)
       });

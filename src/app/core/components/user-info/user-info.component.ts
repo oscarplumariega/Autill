@@ -54,9 +54,6 @@ export class UserInfoComponent {
     this.userService.getUserById(localStorage.getItem('id') || "[]").subscribe((data: any) => {
       this.userInfo.setValue(data);
       this.logoPath = data.logo;
-      if(!data.DataComplete){
-        this.commonService.setDataComplete(false);
-      }
     })
   }
 
