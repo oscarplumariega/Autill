@@ -40,84 +40,119 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class LoginComponent {
   registerForm!: FormGroup
+  loginForm!: FormGroup
   register_option = false;
-  err:any | null;
-  loading:boolean = false;
+  err: any | null;
+  loading: boolean = false;
   apiService = inject(ApiService);
   userService = inject(UserService);
   commonService = inject(CommonService);
+  formatNif = false;
+  formatZip = false;
+  formatName = false;
+  formatPhoneNumber = false;
   formatEmail = false;
   formatPassword = false;
   messages = Messages;
   show: boolean = false;
   @Output() newItemEvent = new EventEmitter<boolean>();
 
-  initializeForm(){
+  initializeForm() {
+    this.loginForm = new FormGroup({
+      Email: new FormControl('', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]),
+      Password: new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+    })
+
     this.registerForm = new FormGroup({
-      email: new FormControl(),
-      password: new FormControl()
+      FullName: new FormControl('', [Validators.required, Validators.pattern('^[a-zA-Z ]*$')]),
+      Email: new FormControl('', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]),
+      Address: new FormControl(),
+      PhoneNumber: new FormControl('', [Validators.pattern(/^[+]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?)(?:[ -]?(?:\(\d+(?:\.\d+)?\)|\d+(?:\.\d+)?))*(?:[ ]?(?:x|ext)\.?[ ]?\d{1,5})?$/), Validators.required, Validators.maxLength(9)]),
+      Logo: new FormControl(),
+      Nif: new FormControl('', [Validators.pattern(/^(\d{8})([A-Z])$/), Validators.required, Validators.maxLength(9)]),
+      Id: new FormControl(),
+      PostalCode: new FormControl(),
+      Region: new FormControl(),
+      Country: new FormControl(),
+      Password: new FormControl('', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]),
+      DataComplete: new FormControl()
     })
   }
-  
-  constructor(private dialog: MatDialog, private formBuilder: FormBuilder, private router: Router){
+
+  constructor(private dialog: MatDialog, private formBuilder: FormBuilder, private router: Router) {
     this.initializeForm();
   }
 
-  ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      Email: ['', [Validators.required, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/)]],
-      Password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{8,}')]]
-    });
-  }
-
-  seePassword(){
+  seePassword() {
     this.show = !this.show;
   }
 
-  authUser(action: string){
-    if (this.registerForm.valid) {
+  login() {
+    if (this.loginForm.valid) {
       this.loading = true;
-      if(action === 'register') {
-        this.apiService.auth(this.registerForm.value, action).subscribe({
-          error: (err) => {
-            let errObj = err.error.errors;
-            this.err = Object.values(errObj);
-          },
-          complete: () => {
-            this.register_option = false;
-            this.loading = false;
-          }
-        });
-      }else{
-        this.apiService.auth(this.registerForm.value, action).subscribe((token: any) => {
-            localStorage.setItem('token',token.access_token);
-            setTimeout(() => {
-              localStorage.setItem('email',this.registerForm.controls['Email'].value);
-              this.userService.getUserByEmail( localStorage.getItem('email') || "[]").subscribe((data:any) => {
-                localStorage.setItem('id',data.Id);
-                if(data.DataComplete){
-                  this.router.navigate(['/home']);
-                }else{
-                  this.commonService.setDataComplete(false);
-                  const dialogRef = this.dialog.open(InfoModalComponent);
-                  dialogRef.componentInstance.message = 'Debe de completar sus datos personales para comenzar a realizar presupuestos.';
-                  this.router.navigate(['/userInfo']);
-                }
-              })
-            }, 1000)
-        });
-      }
-    }else{
-      if(!this.registerForm.controls['Email'].valid){
+      this.apiService.auth(this.loginForm.value, 'login').subscribe((token: any) => {
+        localStorage.setItem('token', token.access_token);
+        setTimeout(() => {
+          localStorage.setItem('email', this.loginForm.controls['Email'].value);
+          this.userService.getUserByEmail(localStorage.getItem('email') || "[]").subscribe((data: any) => {
+            localStorage.setItem('id', data.Id);
+            if (data.DataComplete) {
+              this.router.navigate(['/home']);
+            } else {
+              this.commonService.setDataComplete(false);
+              const dialogRef = this.dialog.open(InfoModalComponent);
+              dialogRef.componentInstance.message = 'Debe de completar sus datos personales para comenzar a realizar presupuestos.';
+              this.router.navigate(['/userInfo']);
+            }
+          })
+        }, 1000)
+      });
+    } else {
+      if (!this.loginForm.controls['Email'].valid) {
         this.formatEmail = true;
       }
-      if(!this.registerForm.controls['Password'].valid){
+      if (!this.loginForm.controls['Password'].valid) {
         this.formatPassword = true;
       }
     }
   }
 
-  changeForm(){
+  register() {
+    if (this.registerForm.valid) {
+      this.loading = true;
+      this.apiService.auth(this.registerForm.value, 'register').subscribe({
+        error: (err) => {
+          let errObj = err.error.errors;
+          this.err = Object.values(errObj);
+        },
+        complete: () => {
+          this.register_option = false;
+          this.loading = false;
+        }
+      });
+    } else {
+      if (!this.registerForm.controls['PhoneNumber'].valid) {
+        this.formatPhoneNumber = true;
+      }
+      if (!this.registerForm.controls['FullName'].valid) {
+        this.formatName = true;
+      }
+      if (!this.registerForm.controls['Nif'].valid) {
+        this.formatNif = true;
+      }
+      if (!this.registerForm.controls['PostalCode'].valid) {
+        this.formatZip = true;
+      }
+      if (!this.registerForm.controls['Email'].valid) {
+        this.formatEmail = true;
+      }
+      if (!this.registerForm.controls['Password'].valid) {
+        this.formatPassword = true;
+      }
+    }
+  }
+
+  changeForm() {
     this.register_option = !this.register_option;
   }
 }
